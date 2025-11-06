@@ -12,7 +12,7 @@
     }
     .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: #004d40; padding-top: 20px; color: white; box-shadow: 2px 0 5px rgba(0,0,0,0.2); overflow-y: auto;}
     .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 16px; color: #b2dfdb; display: block; transition: 0.3s; border-left: 5px solid transparent; }
-    .sidebar a:hover, .sidebar a.active { color: white; background-color: #00796b; border-left: 5px solid #00acc1; }
+    .sidebar a:hover, .sidebar a.active { color: white; background-color: #00796b; border-left: 5:px solid #00acc1; }
     .sidebar h2 { padding: 10px 25px; text-align: center; color: #e0f2f1; border-bottom: 1px solid #00695c; margin-bottom: 20px; }
     .desa-logo-sidebar {
         width: 80px;
@@ -132,7 +132,7 @@
         background-color: #00796b;
         color: white;
         padding: 10px 15px;
-        margin: 8px 5px 8px 0;
+        margin: 8px 5:px 8px 0;
         border: none;
         border-radius: 4px;
         cursor: pointer;
@@ -365,7 +365,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5:px 15px rgba(0, 0, 0, 0.3);
     width: 70%;
     max-width: 500px; /* Max width for modal form */
     max-height: 90vh;
@@ -466,7 +466,7 @@
     /* Print Styles */
     @media print {
         .sidebar, .form-container, .action-btn, .export-btn, h2.module-header, #LaporanEksporData p,
-        .filter-bar, .app-footer, .no-print, .modal-overlay, .rab-toolbar, .pagination-controls, .kab-admin-context { /* Ditambahkan .pagination-controls, .kab-admin-context */
+        .filter-bar, .app-footer, .no-print, .modal-overlay, .rab-toolbar, .pagination-controls { /* Ditambahkan .pagination-controls */
             display: none !important;
         }
 
@@ -861,33 +861,6 @@
         -ms-user-select: text !important;
         user-select: text !important;
     }
-
-    /* NEW: Vertical Progress Bar for Kab Admin Monitoring */
-    .progress-bar-vertical {
-        width: 20px;
-        height: 100px;
-        background-color: #ddd;
-        border-radius: 5px;
-        overflow: hidden;
-        margin: 0 auto;
-        position: relative;
-    }
-    .progress-bar-vertical-fill {
-        width: 100%;
-        background-color: #00796b;
-        position: absolute;
-        bottom: 0;
-        transition: height 0.4s ease;
-    }
-    .progress-bar-vertical-text {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        top: -18px;
-        font-size: 10px;
-        font-weight: bold;
-        color: #004d40;
-    }
 </style>
 </head>
 <body>
@@ -912,7 +885,7 @@
         <p>Login untuk melanjutkan</p>
         <input id="username_input" placeholder="Username" required="" type="text"/>
         <input id="password_input" placeholder="Password" required="" type="password"/>
-        <button id="login_button">LOGIN</button> <!-- DIBUAT DENGAN ID UNTUK EVENT LISTENER -->
+        <button onclick="loginUser()">LOGIN</button>
         <p id="login_message"></p>
         <div class="login-footer">
             <small>Hak Cipta © 2025 SIPDes (Sistem Informasi Perencanaan Desa) Evhan Syahreza (Perangkat Desa Janapria)</small>
@@ -944,32 +917,21 @@
     <a href="#" onclick="showModule(this, 'KegiatanPembangunan')">🚧 Realisasi Kegiatan</a>
     <a href="#" onclick="showModule(this, 'MonitoringEvaluasi')">📊 Monitoring & Evaluasi</a>
     
-    <hr style="border: 0; border-top: 1px solid #00695c; margin: 5px 15px 5px; opacity: 0.5;"> 
-
-    <!-- NEW: Menu Admin Kabupaten -->
-    <a class="app-hidden" href="#KabupatenManagement" id="menu_kabupaten_management" onclick="showModule(this, 'KabupatenManagement')">🔑 Admin Kabupaten</a>
+    <hr style="border: 0; border-top: 1px solid #00695c; margin: 5:px 15px 5px; opacity: 0.5;"> 
 
     <a href="#" onclick="showModule(this, 'InventarisKekayaan')">🏠 Inventaris Kekayaan Desa</a>
     <a href="#" onclick="showModule(this, 'InventarisHasil')">🏗️ Inventaris Hasil Pembangunan</a>
     
-    <hr style="border: 0; border-top: 1px solid #00695c; margin: 5px 15px 5px; opacity: 0.5;"> 
+    <hr style="border: 0; border-top: 1px solid #00695c; margin: 5:px 15px 5px; opacity: 0.5;"> 
 
     <a href="#" onclick="showModule(this, 'LaporanEksporData')">💾 Laporan &amp; Ekspor Data</a>
     <a class="app-hidden" href="#ManajemenUser" id="menu_manajemen_user" onclick="showModule(this, 'ManajemenUser')">👥 Manajemen Pengguna</a>
-    <!-- NEW: Modul Pengaturan Parameter (Tambahan) -->
-    <a class="app-hidden" href="#ParameterManagement" id="menu_parameter_management" onclick="showModule(this, 'ParameterManagement')">🧩 Kelola Parameter</a>
     <a href="#" onclick="showModule(this, 'PengaturanRAB')">⚙️ Pengaturan RAB</a>
     <a href="#" onclick="showClearAllDataModal()">🗑️ Hapus Semua Data</a>
     <a href="#" onclick="logoutUser()">[ 🔒 Logout ]</a>
     <!-- END: PERBAIKAN URUTAN MODUL DI SIDEBAR -->
 </div>
 <div class="main-content">
-<!-- NEW: Context Banner (Untuk Admin Kabupaten saat sedang bekerja dalam konteks Desa) -->
-<div id="context_banner" class="app-hidden kab-admin-context filter-bar" style="background-color: #ffc107; color: #333; justify-content: space-between; border: 1px solid #ff9800;">
-    <label style="font-weight: bold; color: #333;">⚠️ Anda sedang bekerja dalam konteks Desa <span id="context_desa_name"></span>. Simpan data sebelum keluar!</label>
-    <button onclick="exitVillageContext()" style="background-color: #dc3545; color: white;">🚪 KELUAR dari Konteks Desa</button>
-</div>
-
 <div class="filter-bar">
     <label>Tahun Anggaran Aktif:</label>
     <button onclick="setFilterYear(currentFilterYear - 1)">« Tahun Sebelumnya</button>
@@ -979,98 +941,61 @@
     <button onclick="setFilterYear(new Date().getFullYear() + 1)" style="background-color: #5cb85c;">Tahun Depan (RKP)</button>
 </div>
 
-<!-- START: Modul Dashboard - Mengandung kedua versi (Desa/Kabupaten) -->
 <div class="module-content active" id="Dashboard">
-    <!-- Konten Dashboard Desa -->
-    <div id="dashboard_desa_stats" class="app-hidden">
-        <h1 class="module-header">Dashboard 📊 (Tahun <span id="dashboard_current_year"></span>)</h1>
-        <p>Selamat datang di Sistem Informasi Perencanaan Desa. Berikut adalah ringkasan data untuk tahun **<span id="dashboard_filter_year_label"></span>**:</p>
-        <div class="stats-grid">
-          <div class="stat-card" onclick="jumpToModuleAndFilter('RPJMDes')">
-            <h3>Jumlah Rencana (RPJMDes)</h3>
-            <p id="rpjmdes_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('RencanaPembangunan')">
-            <h3>Jumlah RKP (Rencana Kegiatan)</h3>
-            <p id="rkp_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('RancanganAPBDES')">
-            <h3>Total Anggaran RKP</h3>
-            <p id="rkp_total_anggaran">Rp 0,00</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisKekayaan')">
-            <h3>Jumlah Aset Kekayaan</h3>
-            <p id="kekayaan_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('KegiatanPembangunan')">
-            <h3>Total Realisasi Anggaran</h3>
-            <p id="realisasi_total_anggaran">Rp 0,00</p>
-          </div>
-        
-          <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisHasil')">
-            <h3>Jumlah Hasil Pembangunan</h3>
-            <p id="hasil_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisHasil')">
-            <h3>Total Biaya Hasil</h3>
-            <p id="hasil_total_biaya">Rp 0,00</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi', 'Selesai')">
-            <h3>Monitoring: Selesai</h3>
-            <p id="monitoring_selesai_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi', 'Pelaksanaan')">
-            <h3>Monitoring: Dalam Proses</h3>
-            <p id="monitoring_berjalan_count">0</p>
-          </div>
-          <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi')">
-            <h3>Rata‑rata Progres (%)</h3>
-            <p id="monitoring_avg_progress">0%</p>
-          </div>
-        </div>
-        <h2 style="margin-top: 40px; color: #00796b;">Catatan Penting:</h2>
-        <ul>
-        <li>Semua data yang ditampilkan di Dashboard ini difilter berdasarkan **Tahun Anggaran Aktif** yang Anda pilih.</li>
-        <li>Semua data disimpan secara otomatis di **Browser Lokal (Local Storage) MAKA DARI ITU SELALU BACKUP DATA ANDA SECARA BERKALA**.</li>
-        <li>Akun default: **admin/admin** (Admin Penuh) atau **operator/operator** (Hanya Input Data).</li>
-        </ul>
-        <button onclick="editOwnUserAccount()" style="background-color: #f0ad4e; margin-top: 15px; padding: 10px 20px;">
-            🔒 Ubah Password/Akun Saya
-        </button>
-    </div>
+    <h1 class="module-header">Dashboard 📊 (Tahun <span id="dashboard_current_year"></span>)</h1>
+    <p>Selamat datang di Sistem Informasi Perencanaan Desa. Berikut adalah ringkasan data untuk tahun **<span id="dashboard_filter_year_label"></span>**:</p>
+    <div class="stats-grid">
+      <!-- START: PERBAIKAN - Penambahan Card RPJMDes -->
+      <div class="stat-card" onclick="jumpToModuleAndFilter('RPJMDes')">
+        <h3>Jumlah Rencana (RPJMDes)</h3>
+        <p id="rpjmdes_count">0</p>
+      </div>
+      <!-- END: PERBAIKAN -->
+      <div class="stat-card" onclick="jumpToModuleAndFilter('RencanaPembangunan')">
+        <h3>Jumlah RKP (Rencana Kegiatan)</h3>
+        <p id="rkp_count">0</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('RancanganAPBDES')">
+        <h3>Total Anggaran RKP</h3>
+        <p id="rkp_total_anggaran">Rp 0,00</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisKekayaan')">
+        <h3>Jumlah Aset Kekayaan</h3>
+        <p id="kekayaan_count">0</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('KegiatanPembangunan')">
+        <h3>Total Realisasi Anggaran</h3>
+        <p id="realisasi_total_anggaran">Rp 0,00</p>
+      </div>
     
-    <!-- NEW: Dashboard Khusus Kabupaten Admin (II.2) -->
-    <div id="dashboard_kab_admin_summary" class="app-hidden">
-        <h1 class="module-header">Dashboard Kabupaten Admin 🔑</h1>
-        <p>Selamat datang, **<span id="kab_admin_username_welcome"></span>**! Berikut adalah ringkasan kinerja Desa di wilayah Anda untuk Tahun Anggaran Aktif **<span id="kab_admin_filter_year"></span>**.</p>
-        
-        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
-             <div class="stat-card" style="background-color: #e0f7fa;" onclick="showModule(null, 'KabupatenManagement')">
-                 <h3>Jumlah Desa Terdaftar</h3>
-                 <p id="kab_total_desa">0</p>
-             </div>
-             <div class="stat-card" style="background-color: #c8e6c9;" onclick="showModule(null, 'KabupatenManagement')">
-                 <h3>Rata-rata RKP/Desa</h3>
-                 <p id="kab_avg_rkp">0</p>
-             </div>
-             <div class="stat-card" style="background-color: #fff3e0;" onclick="showModule(null, 'KabupatenManagement')">
-                 <h3>Total Anggaran Keseluruhan</h3>
-                 <p id="kab_total_anggaran_all">Rp 0,00</p>
-             </div>
-             <div class="stat-card" style="background-color: #ffcdd2;" onclick="showModule(null, 'KabupatenManagement')">
-                 <h3>Rata-rata Progres Fisik</h3>
-                 <p id="kab_avg_progress_all">0%</p>
-             </div>
-        </div>
-        
-        <h2 style="margin-top: 40px; color: #004d40;">Ringkasan Kinerja Per Desa (Tahun Anggaran Aktif Desa)</h2>
-        <p>Tabel di bawah ini menampilkan data tahunan masing-masing Desa. **Tahun Anggaran Aktif** Desa di sini mengikuti pengaturan Desa, bukan filter Anda.</p>
-        <div id="kab_desa_summary_output">
-             <!-- Tabel ringkasan kinerja semua desa akan di-render di sini -->
-        </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisHasil')">
+        <h3>Jumlah Hasil Pembangunan</h3>
+        <p id="hasil_count">0</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('InventarisHasil')">
+        <h3>Total Biaya Hasil</h3>
+        <p id="hasil_total_biaya">Rp 0,00</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi', 'Selesai')">
+        <h3>Monitoring: Selesai</h3>
+        <p id="monitoring_selesai_count">0</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi', 'Pelaksanaan')">
+        <h3>Monitoring: Dalam Proses</h3>
+        <p id="monitoring_berjalan_count">0</p>
+      </div>
+      <div class="stat-card" onclick="jumpToModuleAndFilter('MonitoringEvaluasi')">
+        <h3>Rata‑rata Progres (%)</h3>
+        <p id="monitoring_avg_progress">0%</p>
+      </div>
     </div>
+    <h2 style="margin-top: 40px; color: #00796b;">Catatan Penting:</h2>
+    <ul>
+    <li>Semua data yang ditampilkan di Dashboard ini difilter berdasarkan **Tahun Anggaran Aktif** yang Anda pilih.</li>
+    <li>Semua data disimpan secara otomatis di **Browser Lokal (Local Storage) MAKA DARI ITU SELALU BACKUP DATA ANDA SECARA BERKALA**.</li>
+    <li>Akun default: **admin/admin** (Admin Penuh) atau **operator/operator** (Hanya Input Data).</li>
+    </ul>
 </div>
-<!-- END: Modul Dashboard -->
 
 <!-- START: PENAMBAHAN MODUL PROFIL DESA -->
 <div class="module-content" id="ProfilDesa">
@@ -1221,75 +1146,6 @@
     <h3 style="margin-top: 30px;">Tabel Monitoring Terpusat</h3>
     <div id="monitoring_output"></div>
 </div>
-
-
-<!-- NEW: MODUL MANAJEMEN KABUPATEN -->
-<div class="module-content" id="KabupatenManagement">
-    <h1 class="module-header">Manajemen Desa (Oleh Kabupaten Admin) 🔑</h1>
-    <p>Modul ini menyediakan fungsi dasar untuk mendaftarkan dan menghapus Desa di store simulasi Kabupaten.</p>
-    
-    <div class="form-container">
-        <h2>Pendaftaran Desa Baru (Simulasi)</h2>
-        <input type="hidden" id="desa_editing_id"/>
-        
-        <label for="desa_id_input">Kode Unik Desa (Contoh: LOMBOK_TENGAH_JANAPRIA):</label>
-        <input type="text" id="desa_id_input" placeholder="Kode Unik (Wajib Diisi)" required/>
-
-        <label for="desa_nama_input">Nama Desa:</label>
-        <input type="text" id="desa_nama_input" placeholder="Contoh: Janapria" required/>
-        
-        <label for="desa_admin_username_input">Username Admin Desa:</label>
-        <input type="text" id="desa_admin_username_input" placeholder="admin_janapria" required/>
-        
-        <label for="desa_admin_password_input">Password Admin Desa (Otomatis Dibuatkan Jika Kosong, Isi Jika Ingin RESET Password):</label>
-        <input type="password" id="desa_admin_password_input" placeholder="Isi untuk membuat/mengubah password" />
-
-        <button onclick="registerNewDesa()">💾 Daftarkan/Simpan Desa</button>
-        <button class="action-btn cancel-btn" onclick="clearDesaForm()">Batal/Reset Form</button>
-        <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;">* Penting: Kode Unik Desa akan menjadi kunci penyimpanan data desa tersebut.</p>
-    </div>
-    
-    <h3 style="margin-top: 30px;">Daftar Desa Terdaftar</h3>
-    <div id="kabupaten_desa_list_output">
-        <!-- Tabel daftar desa dan tombol aksi (Masuk/Hapus) akan dirender di sini -->
-    </div>
-</div>
-<!-- END NEW: MODUL MANAJEMEN KABUPATEN -->
-
-<!-- NEW: MODUL PENGELOLAAN PARAMETER -->
-<div class="module-content" id="ParameterManagement">
-    <h1 class="module-header">Kelola Parameter Dasar (JSON Upload) 🧩</h1>
-    <p>Kelola data master yang digunakan aplikasi. **Hanya Admin Kabupaten yang dapat mengubah data master.**</p>
-
-    <div class="form-container" style="border-left: 5px solid #004d40;">
-        <h2>Upload Parameter Bidang/Kegiatan (RAB_PARAMETERS)</h2>
-        <p>Unggah file JSON untuk mengganti daftar Bidang, Sub Bidang, dan Kegiatan. Struktur file harus sesuai format `RAB_PARAMETERS`.</p>
-        <input type="file" id="uploadRABParameters" accept=".json">
-        <button onclick="uploadParameter('RAB')">⬆️ Upload & Simpan Parameter Kegiatan</button>
-        <button onclick="downloadParameter('RAB')" style="background-color: #6c757d;">⬇️ Download Parameter Saat Ini</button>
-    </div>
-
-    <div class="form-container" style="border-left: 5px solid #004d40; margin-top: 20px;">
-        <h2>Upload Parameter Akun Belanja (BELANJA_ACCOUNTS)</h2>
-        <p>Unggah file JSON untuk mengganti daftar Akun Belanja (Level 5.X). Struktur file harus sesuai format `BELANJA_ACCOUNTS`.</p>
-        <input type="file" id="uploadBelanjaAccounts" accept=".json">
-        <button onclick="uploadParameter('BELANJA')">⬆️ Upload & Simpan Parameter Akun</button>
-        <button onclick="downloadParameter('BELANJA')" style="background-color: #6c757d;">⬇️ Download Parameter Saat Ini</button>
-    </div>
-    
-    <div class="form-container" style="border-left: 5px solid #004d40; margin-top: 20px;">
-        <h2>Simulasi Wilayah Kabupaten (Untuk Header Desa Baru)</h2>
-        <p>Data ini digunakan sebagai nilai default Kecamatan, Kabupaten, dan Provinsi saat Desa baru didaftarkan di modul Admin Kabupaten.</p>
-        <label for="param_kecamatan">Nama Kecamatan:</label>
-        <input type="text" id="param_kecamatan" placeholder="Cth: Janapria"/>
-        <label for="param_kabupaten">Nama Kabupaten:</label>
-        <input type="text" id="param_kabupaten" placeholder="Cth: Lombok Tengah"/>
-        <label for="param_provinsi">Nama Provinsi:</label>
-        <input type="text" id="param_provinsi" placeholder="Cth: Nusa Tenggara Barat"/>
-        <button onclick="saveKabupatenSettings()">💾 Simpan Parameter Wilayah</button>
-    </div>
-</div>
-<!-- END NEW: MODUL PENGELOLAAN PARAMETER -->
 
 
 <div id="RABKegiatanModule" class="module-content">
@@ -1459,7 +1315,7 @@
                 <th style="width: 5%;">AKSI</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody></tbpody>
         <tfoot>
             <tr id="detail-total-row">
                 <td colspan="5" style="padding: 10px; text-align: right;">TOTAL JUMLAH BELANJA</td>
@@ -1518,11 +1374,11 @@
     </select>
 
     <div style="display: flex; justify-content: space-between; gap: 10px;">
-        <input type="text" id="detailVolume" placeholder="Volume (Cth: 1.234,50)" required style="width: 40%;" onkeyup="formatNumberLive(this, false)" onblur="formatNumberLive(this, true)">
+        <input type="text" id="detailVolume" placeholder="Volume (Cth: 1.234,50)" required style="width: 40%;" oninput="formatNumberLive(this, false)" onblur="formatNumberLive(this, true)">
         <input type="text" id="detailSatuan" placeholder="Satuan (Cth: Unit/M2)" required style="width: 60%;">
     </div>
     
-    <input type="text" id="detailHargaSatuan" placeholder="Harga Satuan (Rp) (Cth: 1.000.000,90)" required onkeyup="formatNumberLive(this, false)" onblur="formatNumberLive(this, true)">
+    <input type="text" id="detailHargaSatuan" placeholder="Harga Satuan (Rp) (Cth: 1.000.000,90)" required oninput="formatNumberLive(this, false)" onblur="formatNumberLive(this, true)">
 
     <hr/>
 
@@ -1537,7 +1393,7 @@
 
     <div class="modal-actions">
       <button onclick="simpanDetailBelanja()">Simpan Detil</button>
-      <button onclick="tutupFormDetail()" class="cancel-btn">Batal</button>
+      <button onclick="tutupFormDetail()">Batal</button>
       <!-- TOMBOL INPUT BERKELANJUTAN (SIMULASI SISKEUDES) -->
       <button id="btnSimpanDanLanjut" onclick="simpanDetailBelanja(true)" style="background-color: #004d40; display: none;">Simpan & Lanjut</button>
     </div>
@@ -1556,7 +1412,7 @@
     
     <div class="modal-actions">
       <button onclick="prosesCetakRABPerBidang()">Cetak RAB</button>
-      <button onclick="document.getElementById('formCetakRABPerBidangModal').style.display = 'none';" class="cancel-btn">Batal</button>
+      <button onclick="document.getElementById('formCetakRABPerBidangModal').style.display = 'none';">Batal</button>
     </div>
   </div>
 </div>
@@ -1573,7 +1429,7 @@
 
     <div class="modal-actions">
       <button onclick="importAllData()">Proses Impor</button>
-      <button onclick="document.getElementById('formImportModal').style.display = 'none';" class="cancel-btn">Batal</button>
+      <button onclick="document.getElementById('formImportModal').style.display = 'none';">Batal</button>
     </div>
   </div>
 </div>
@@ -1767,11 +1623,10 @@
             <button onclick="tampilkanFormCetakRABPerBidang()">🖨️ Cetak RAB Per Bidang</button>
             <button onclick="cetakRABKeseluruhan()">🖨️ Cetak RAB Keseluruhan</button>
             <button onclick="cetakLaporanDariModul('MonitoringEvaluasi')">🖨️ Cetak Laporan Monitoring</button>
-            <button onclick="cetakLaporanDariModul('InventarisKekayaan')">🖨️ Cetak Inventaris Kekayaan Desa</button>
             <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Hasil</button>
-            <!-- BARIS DI BAWAH INI TELAH DIHAPUS KARENA AMBIGU DAN REDUNDAN: 
-            <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Pembangunan</button> 
-            -->
+            <!-- START: PENAMBAHAN TOMBOL CETAK INVENTARIS PEMBANGUNAN SESUAI PERMINTAAN -->
+            <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Pembangunan</button>
+            <!-- END: PENAMBAHAN TOMBOL CETAK INVENTARIS PEMBANGUNAN SESUAI PERMINTAAN -->
         </div>
     </div>
     
@@ -1838,8 +1693,6 @@
         <select id="user_role" required>
             <option value="admin">Admin Penuh</option>
             <option value="operator">Operator (Hanya Input Data)</option>
-            <!-- NEW: Sembunyikan peran Kabupaten Admin dari Admin Desa -->
-            <option class="app-hidden" value="kabupaten_admin">Admin Kabupaten (Hanya Admin Kab)</option>
         </select>
         
         <div style="margin: 15px 0; text-align: left;">
@@ -1855,41 +1708,6 @@
     <div id="user_list_output"></div>
 </div>
 <!-- END: MODUL MANAJEMEN PENGGUNA -->
-
-<!-- START: MODUL PENGELOLAAN PARAMETER -->
-<div class="module-content" id="ParameterManagement">
-    <h1 class="module-header">Kelola Parameter Dasar (JSON Upload) 🧩</h1>
-    <p>Kelola data master yang digunakan aplikasi. **Hanya Admin Kabupaten yang dapat mengubah data master.**</p>
-
-    <div class="form-container" style="border-left: 5px solid #004d40;">
-        <h2>Upload Parameter Bidang/Kegiatan (RAB_PARAMETERS)</h2>
-        <p>Unggah file JSON untuk mengganti daftar Bidang, Sub Bidang, dan Kegiatan. Struktur file harus sesuai format `RAB_PARAMETERS`.</p>
-        <input type="file" id="uploadRABParameters" accept=".json">
-        <button onclick="uploadParameter('RAB')">⬆️ Upload & Simpan Parameter Kegiatan</button>
-        <button onclick="downloadParameter('RAB')" style="background-color: #6c757d;">⬇️ Download Parameter Saat Ini</button>
-    </div>
-
-    <div class="form-container" style="border-left: 5px solid #004d40; margin-top: 20px;">
-        <h2>Upload Parameter Akun Belanja (BELANJA_ACCOUNTS)</h2>
-        <p>Unggah file JSON untuk mengganti daftar Akun Belanja (Level 5.X). Struktur file harus sesuai format `BELANJA_ACCOUNTS`.</p>
-        <input type="file" id="uploadBelanjaAccounts" accept=".json">
-        <button onclick="uploadParameter('BELANJA')">⬆️ Upload & Simpan Parameter Akun</button>
-        <button onclick="downloadParameter('BELANJA')" style="background-color: #6c757d;">⬇️ Download Parameter Saat Ini</button>
-    </div>
-    
-    <div class="form-container" style="border-left: 5px solid #004d40; margin-top: 20px;">
-        <h2>Simulasi Wilayah Kabupaten (Untuk Header Desa Baru)</h2>
-        <p>Data ini digunakan sebagai nilai default Kecamatan, Kabupaten, dan Provinsi saat Desa baru didaftarkan di modul Admin Kabupaten.</p>
-        <label for="param_kecamatan">Nama Kecamatan:</label>
-        <input type="text" id="param_kecamatan" placeholder="Cth: Janapria"/>
-        <label for="param_kabupaten">Nama Kabupaten:</label>
-        <input type="text" id="param_kabupaten" placeholder="Cth: Lombok Tengah"/>
-        <label for="param_provinsi">Nama Provinsi:</label>
-        <input type="text" id="param_provinsi" placeholder="Cth: Nusa Tenggara Barat"/>
-        <button onclick="saveKabupatenSettings()">💾 Simpan Parameter Wilayah</button>
-    </div>
-</div>
-<!-- END NEW: MODUL PENGELOLAAN PARAMETER -->
 
 <!-- START: MODUL PENGATURAN RAB -->
 <div class="module-content" id="PengaturanRAB">
@@ -1974,10 +1792,10 @@
 // =======================================================================
 
 // --- RAB PARAMETERS (Gunakan yang paling lengkap) ---
-const RAB_PARAMETERS_DEFAULT = [{"kode": "01","nama": "BIDANG PENYELENGGARAN PEMERINTAHAN DESA","subBidang": [{"kode": "01.01.","nama": "Penyelenggaran Belanja Siltap, Tunjangan dan Operasional Pemerintahan Desa","kegiatan": [{"kode": "01.01.01.","nama": "Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa"}, {"kode": "01.01.02.","nama": "Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa"}, {"kode": "01.01.03.","nama": "Penyediaan Jaminan Sosial bagi Kepala Desa dan Perangkat Desa"}, {"kode": "01.01.04.","nama": "Penyediaan Operasional Pemerintah Desa (ATK, Honor PKPKD dan PPKD dll)"}, {"kode": "01.01.05.","nama": "Penyediaan Tunjangan BPD"}, {"kode": "01.01.06.","nama": "Penyediaan Operasional BPD (rapat, ATK, Makan Minum, Pakaian Seragam, Listrik dll)"}, {"kode": "01.01.07.","nama": "Penyediaan Insentif/Operasional RT/RW"}, {"kode": "01.01.08.","nama": "Penyediaan Operasional Pemerintah Desa yang bersumber dari Dana Desa"}, {"kode": "01.01.90.","nama": "Penyediaan Tunjangan Kepala Desa Persiapan"}, {"kode": "01.01.91.","nama": "Penyediaan Penghasilan Tetap Perangkat Desa Persiapan"}, {"kode": "01.01.92.","nama": "Penyediaan Jaminan Sosial bagi BPD"}, {"kode": "01.01.93.","nama": "Penyediaan Jaminan Sosial Bagi Lembaga Kemasyarakatan Desa"}]}, {"kode": "01.02.","nama": "Penyediaan Sarana Prasarana Pemerintahan Desa","kegiatan": [{"kode": "01.02.01.","nama": "Penyediaan Sarana (Aset Tetap) Perkantoran/Pemerintahan"}, {"kode": "01.02.02.","nama": "Pemeliharaan Gedung/Prasarana Kantor Desa"}, {"kode": "01.02.03.","nama": "Pembangunan/Rehabilitasi/Peningkatan Gedung/Prasarana Kantor Desa **)"}]}, {"kode": "01.03.","nama": "Pengelolaan Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan","kegiatan": [{"kode": "01.03.01.","nama": "Pelayanan Administrasi Umum dan Kependudukan"}, {"kode": "01.03.02.","nama": "Penyusunan, Pendataan, dan Pemutakhiran Profil Desa **)"}, {"kode": "01.03.03.","nama": "Pengelolaan Administrasi dan Kearsipan Pemerintahan Desa"}, {"kode": "01.03.04.","nama": "Penyuluhan dan Penyadaran Masyarakat tentang Kependudukan dan Capil"}, {"kode": "01.03.05.","nama": "Pemetaan dan Analisis Kemiskinan Desa secara Partisipatif"}]}, {"kode": "01.04.","nama": "Penyelenggaraan Tata Praja Pemerintahan, Perencanaan, Keuangan dan Pelaporan","kegiatan": [{"kode": "01.04.01.","nama": "Penyelenggaraan Musyawarah Perencanaan Desa/Pembahasan APBDes (Reguler)"}, {"kode": "01.04.02.","nama": "Penyelenggaraan Musyawarah Desa Lainnya (Musdus, Rembug desa Non Reguler)"}, {"kode": "01.04.03.","nama": "Penyusunan Dokumen Perencanaan Desa (RPJMDesa/RKPDesa dll)"}, {"kode": "01.04.04.","nama": "Penyusunan Dokumen Keuangan Desa (APBDes, APBDes Perubahan, LPJ dll)"}, {"kode": "01.04.05.","nama": "Pengelolaan Administrasi/ Inventarisasi/Penilaian Aset Desa"}, {"kode": "01.04.06.","nama": "Penyusunan Kebijakan Desa (Perdes/Perkades selain Perencanaan/Keuangan)"}, {"kode": "01.04.07.","nama": "Penyusunan Laporan Kepala Desa, LPPDesa dan Informasi Kepada Masyarakat"}, {"kode": "01.04.08.","nama": "Pengembangan Sistem Informasi Desa"}, {"kode": "01.04.09.","nama": "Koordinasi/Kerjasama Penyelenggaraan Pemerintahan & Pembangunan Desa"}, {"kode": "01.04.10.","nama": "Dukungan & Sosialisasi Pelaksanaan Pilkades, Pemilihan Ka. Kewilayahan & BPD"}, {"kode": "01.04.11.","nama": "Penyelenggaraan Lomba antar Kewilayahan & Pengiriman Kontingen dalam Mengikuti Lomba Desa"}, {"kode": "01.04.12.","nama": "Dukungan Biaya Operasional dan Biaya Lainnya untuk Desa Persiapan"}]}, {"kode": "01.05.","nama": "Sub Bidang Pertanahan","kegiatan": [{"kode": "01.05.01.","nama": "Sertifikasi Tanah Kas Desa"}, {"kode": "01.05.02.","nama": "Administrasi Pertanahan (Pendaftaran Tanah dan Pemberian Registrasi Agenda Pertanahan)"}, {"kode": "01.05.03.","nama": "Fasilitasi Sertifikasi Tanah untuk Masyarakat Miskin"}, {"kode": "01.05.04.","nama": "Kegiatan Mediasi Konflik Pertanahan"}, {"kode": "01.05.05.","nama": "Kegiatan Penyuluhan Pertanahan"}, {"kode": "01.05.06.","nama": "Adminstrasi Pajak Bumi dan Bangunan (PBB)"}, {"kode": "01.05.07.","nama": "Penentuan/Penegasan Batas/patok Tanah Kas Desa"}]}]}, {"kode": "02","nama": "BIDANG PELAKSANAAN PEMBANGUNAN DESA","subBidang": [{"kode": "02.01.","nama": "Sub Bidang Pendidikan","kegiatan": [{"kode": "02.01.01.","nama": "Penyelenggaraan PAUD/TK/TPA/TKA/TPQ/Madrasah Non-Formal Milik Desa (Honor, Pakaian dll)"}, {"kode": "02.01.02.","nama": "Dukungan Penyelenggaraan PAUD (APE, Sarana PAUD dst)"}, {"kode": "02.01.03.","nama": "Penyuluhan dan Pelatihan Pendidikan Bagi Masyarakat"}, {"kode": "02.01.04.","nama": "Pemeliharaan Sarana Prasarana Perpustakaan/Taman Bacaan/Sanggar Belajar Milik Desa"}, {"kode": "02.01.05.","nama": "Pemeliharaan Sarana Prasarana PAUD/TK/ΤΡΑ/ΤΚΑ/TPQ/Madrasah Non-formal Milik Desa"}, {"kode": "02.01.06.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana/Alat Peraga PAUD/TK/TPA/ΤΚΑ/TPQ/M"}, {"kode": "02.01.07.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana/Prasarana Perpustakaan/Taman Bacaan Desa/ Sanggar Belaja"}, {"kode": "02.01.08.","nama": "Pengelolaan Perpustakaan Milik Desa (Pengadaan Buku, Honor, Taman Baca)"}, {"kode": "02.01.09.","nama": "Pengembangan dan Pembinaan Sanggar Seni dan Belajar"}, {"kode": "02.01.10.","nama": "Dukungan Pendidikan bagi Siswa Miskin/Berprestasi"}]}, {"kode": "02.02.","nama": "Sub Bidang Kesehatan","kegiatan": [{"kode": "02.02.01.","nama": "Penyelenggaraan Pos Kesehatan Desa/Polindes Milik Desa (obat, Insentif, KB, dsb)"}, {"kode": "02.02.02.","nama": "Penyelenggaraan Posyandu (Makanan Tambahan, Kelas Bumil, Lansia, Insentif)"}, {"kode": "02.02.03.","nama": "Penyuluhan dan Pelatihan Bidang Kesehatan (Untuk Masyarakat, Tenaga dan Kader Kesehatan dil)"}, {"kode": "02.02.04.","nama": "Penyelenggaraan Desa Siaga Kesehatan"}, {"kode": "02.02.05.","nama": "Pembinaan Palang Merah Remaja (PMR) Tingkat Desa"}, {"kode": "02.02.06.","nama": "Pengasuhan Bersama atau Bina Keluarga Balita (BKB)"}, {"kode": "02.02.07.","nama": "Pembinaan dan Pengawasan Upaya Kesehatan Tradisional"}, {"kode": "02.02.08.","nama": "Pemeliharaan Sarana Prasarana Posyandu/Polindes/PKD"}, {"kode": "02.02.09.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana Posyandu/Polindes/PKD **"}]}, {"kode": "02.03.","nama": "Sub Bidang Pekerjaan Umum dan Penataan Ruang","kegiatan": [{"kode": "02.03.01.","nama": "Pemeliharaan Jalan Desa"}, {"kode": "02.03.02.","nama": "Pemeliharaan Jalan Lingkungan Pemukiman/Gang"}, {"kode": "02.03.03.","nama": "Pemeliharaan Jalan Usaha Tani"}, {"kode": "02.03.04.","nama": "Pemeliharaan Jembatan Desa"}, {"kode": "02.03.05.","nama": "Pemeliharaan Prasarana Jalan Desa (Gorong-gorong/Selokan/Parit/Drainase dll)"}, {"kode": "02.03.06.","nama": "Pemeliharaan Gedung/Prasarana Balai Desa/Balai Kemasyarakatan"}, {"kode": "02.03.07.","nama": "Pemeliharaan Pemakaman /Situs Bersejarah/Petilasan Milik Desa"}, {"kode": "02.03.08.","nama": "Pemeliharaan Embung Milik Desa"}, {"kode": "02.03.09.","nama": "Pemeliharaan Monumen/Gapura/Batas Desa"}, {"kode": "02.03.10.","nama": "Pembangunan/Rehabilitas/Peningkatan/Pengerasan Jalan Desa **)"}, {"kode": "02.03.11.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Lingkungan Permukiman **)"}, {"kode": "02.03.12.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Usaha Tani **)"}, {"kode": "02.03.13.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jembatan Milik Desa **)"}, {"kode": "02.03.14.","nama": "Pembangunan/Rehabilitasi/Peningkatan Prasarana Jalan Desa (Gorong, selokan dll)"}, {"kode": "02.03.15.","nama": "Pembangunan/Rehabilitasi/Peningkatan Balai Desa/Balai Kemasyarakatan **)"}, {"kode": "02.03.16.","nama": "Pembangunan/Rehabilitasi/Peningkatan Pemakaman Milik Desa/Situs Bersejarah Milik Desa/Petilasan"}, {"kode": "02.03.17.","nama": "Pembuatan/Pemutakhiran Peta Wilayah dan Sosial Desa **)"}, {"kode": "02.03.18.","nama": "Penyusunan Dokumen Perencanaan Tata Ruang Desa"}, {"kode": "02.03.19.","nama": "Pembangunan/Rehabilitasi/Peningkatan Embung Desa **)"}, {"kode": "02.03.20.","nama": "Pembangunan/Rehabilitasi/Peningkatan Monumen/Gapura/Batas Desa **)"}]}, {"kode": "02.04.","nama": "Sub Bidang Kawasan Pemukiman","kegiatan": [{"kode": "02.04.01.","nama": "Dukungan Pelaksanaan Program Pembangunan/Rehab Rumah Tidak Layak Huni GAKIN"}, {"kode": "02.04.02.","nama": "Pemeliharaan Sumur Resapan Milik Desa"}, {"kode": "02.04.03.","nama": "Pemeliharaan Sumber Air Bersih Milik Desa (Mata Air, Penampung Air, Sumur Bor dll)"}, {"kode": "02.04.04.","nama": "Pemeliharaan Sambungan Air Bersih ke Rumah Tangga (Pipanisasi dll)"}, {"kode": "02.04.05.","nama": "Pemeliharaan Sanitasi Pemukiman (Gorong-gorong, Selokan, Parit diluar Prasarana Jalan))"}, {"kode": "02.04.06.","nama": "Pemeliharaan Fasilitas Jamban Umum/MCK Umum dil"}, {"kode": "02.04.07.","nama": "Pemeliharaan Fasilitas Pengelolaan Sampah Desa (Penampungan, Bank Sampah, dll)"}, {"kode": "02.04.08.","nama": "Pemeliharaan Sistem Pembuangan Air Limbah (Drainase, Air limbah Rumah Tangga)"}, {"kode": "02.04.09.","nama": "Pemeliharaan Taman/Taman Bermain Anak Milik Desa"}, {"kode": "02.04.10.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sumur Resapan **)"}, {"kode": "02.04.11.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sumber Air Bersih Milik Desa **)"}, {"kode": "02.04.12.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sambungan Air Bersih ke Rumah Tangga **)"}, {"kode": "02.04.13.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sanitasi Permukiman **)"}, {"kode": "02.04.14.","nama": "Pembangunan/Rehabilitasi/Peningkatan Fasilitas Jamban Umum/MCK umum, dll **)"}, {"kode": "02.04.15.","nama": "Pembangunan/Rehabilitasi/Peningkatan Fasilitas Pengelolaan Sampah **)"}, {"kode": "02.04.16.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sistem Pembuangan Air Limbah **)"}, {"kode": "02.04.17.","nama": "Pembangunan/Rehabilitasi/Peningkatan Taman/Taman Bermain Anak Milik Desa **)"}]}, {"kode": "02.05.","nama": "Sub Bidang Kehutanan dan Lingkungan Hidup","kegiatan": [{"kode": "02.05.01.","nama": "Pengelolaan Hutan Milik Desa"}, {"kode": "02.05.02.","nama": "Pengelolaan Lingkungan Hidup Milik Desa"}, {"kode": "02.05.03.","nama": "Pelatihan/Sosialisasi/Penyuluhan/Penyadaran tentang LH danKehutanan **)"}]}, {"kode": "02.06.","nama": "Sub Bidang Perhubungan, Komunikasi dan Informatika","kegiatan": [{"kode": "02.06.01.","nama": "Pembuatan Rambu-rambu di Jalan Desa"}, {"kode": "02.06.02.","nama": "Penyelenggaraan Informasi Publik Desa (Poster, Baliho DII)"}, {"kode": "02.06.03.","nama": "Pengelolaan dan Pembuatan Jaringan/Instalasi Komunikasi dan Informasi Lokal Desa"}, {"kode": "02.06.04.","nama": "Pemeliharaan Sarana dan Prasarana Transportasi Desa"}, {"kode": "02.06.05.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana & Prasarana Transportasi Desa"}, {"kode": "02.06.90.","nama": "Penyelenggaraan Expo Pembangunan Desa"}]}, {"kode": "02.07.","nama": "Sub Bidang Energi dan Sumberdaya Mineral","kegiatan": [{"kode": "02.07.01.","nama": "Pemeliharaan Sarana dan Prasarana Energi Alternatif Tingkat Desa"}, {"kode": "02.07.02.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana & Prasarana Energi Alternatif Desa"}]}, {"kode": "02.08.","nama": "Sub Bidang Pariwisata","kegiatan": [{"kode": "02.08.01.","nama": "Pemeliharaan Sarana dan Prasarana Pariwisata Milik Desa"}, {"kode": "02.08.02.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Pariwisata Milik **)"}, {"kode": "02.08.03.","nama": "Pengembangan Pariwisata Tingkat Desa"}]}]}, {"kode": "03","nama": "BIDANG PEMBINAAN KEMASYARAKATAN","subBidang": [{"kode": "03.01.","nama": "Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat","kegiatan": [{"kode": "03.01.01.","nama": "Pengadaan/Penyelenggaraan Pos Keamanan Desa"}, {"kode": "03.01.02.","nama": "Penguatan & Peningkatan Kapasitas Tenaga Keamanan/Ketertiban oleh Pemdes"}, {"kode": "03.01.03.","nama": "Koordinasi Pembinaan Keamanan, Ketertiban & Perlindungan Masy. Skala Lokal Desa"}, {"kode": "03.01.04.","nama": "Persiapan Kesiapsiagaan/Tanggap Bencana Skala Lokal Desa"}, {"kode": "03.01.05.","nama": "Penyediaan Pos Kesiapsiagaan Bencana Skala Lokal Desa"}, {"kode": "03.01.06.","nama": "Bantuan Hukum Untuk Aparatur Desa dan Masyarakat Miskin"}, {"kode": "03.01.07.","nama": "Pelatihan/Penyuluhan/Sosialisasi kepada Masy. di Bid. Hukum & Pelindungan Masy."}]}, {"kode": "03.02.","nama": "Sub Bidang Kebudayaan dan Keagamaan","kegiatan": [{"kode": "03.02.01.","nama": "Pembinaan Group Kesenian dan Kebudayaan Tingkat Desa"}, {"kode": "03.02.02.","nama": "Pengiriman Kontingen Group Kesenian & Kebudayaan (Wakil Desa tkt. Kec/Kab/Kot)"}, {"kode": "03.02.03.","nama": "Penyelenggaraan Festival Kesenian, Adat/Kebudayaan, dan Keagamaan (HUT RI, Raya Keagamaan dil)"}, {"kode": "03.02.04.","nama": "Pemeliharaan Sarana Prasarana Kebudayaan, Rumah Adat dan Keagamaan Milik Desa"}, {"kode": "03.02.05.","nama": "Pembangunan/Rehabilitasi Sarana Prasarana Kebudayaan/Rumah Adat/Kegamaan Milik Desa **)"}]}, {"kode": "03.03.","nama": "Sub Bidang Kepemudaan dan Olahraga","kegiatan": [{"kode": "03.03.01.","nama": "Pengiriman Kontingen Kepemudaan & Olahraga Sebagai Wakil Desa tkt Kec/Kab/Kota"}, {"kode": "03.03.02.","nama": "Penyelenggaraan Pelatihan Kepemudaan Tingkat Desa"}, {"kode": "03.03.03.","nama": "Penyelenggaraan Festival/Lomba Kepemudaan dan Olahraga Tingkat Desa"}, {"kode": "03.03.04.","nama": "Pemeliharaan Sarana dan Prasarana Kepemudaan dan Olahraga Milik Desa"}, {"kode": "03.03.05.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Kepemudaan & Olahraga Milik Desa"}, {"kode": "03.03.06.","nama": "Pembinaan Karang Taruna/Klub Kepemudaan/Olahraga Tingkat Desa"}]}, {"kode": "03.04.","nama": "Sub Bidang Kelembagaan Masyarakat","kegiatan": [{"kode": "03.04.01.","nama": "Pembinaan Lembaga Adat"}, {"kode": "03.04.02.","nama": "Pembinaan LKMD/LPM/LPMD"}, {"kode": "03.04.03.","nama": "Pembinaan PKK"}, {"kode": "03.04.04.","nama": "Pelatihan Pembinaan Lembaga Kemasyarakatan"}, {"kode": "03.04.90.","nama": "Penyelenggaraan Balai Mediasi"}]}]}, {"kode": "04","nama": "BIDANG PEMBERDAYAAN MASYARAKAT","subBidang": [{"kode": "04.01.","nama": "Sub Bidang Kelautan dan Perikanan","kegiatan": [{"kode": "04.01.01.","nama": "Pemeliharaan Karamba/Kolam Perikanan Darat Milik Desa"}, {"kode": "04.01.02.","nama": "Pemeliharaan Pelabuhan Perikanan Sungai/Kecil Milik Desa"}, {"kode": "04.01.03.","nama": "Pembangunan/Rehabilitasi/Peningkatan Karamba/Kolam Perikanan Darat Milik Desa"}, {"kode": "04.01.04.","nama": "Pembangunan/Rehabilitasi/Peningkatan Pelabuhan Perikanan Sungai/Kecil Milik Desa"}, {"kode": "04.01.05.","nama": "Bantuan Perikanan (Bibit/Pakan/dll)"}, {"kode": "04.01.06.","nama": "Bimtek/Pelatihan/Pengenalan TTG untuk Perikanan Darat/Nelayan **)"}, {"kode": "04.01.90.","nama": "Pelatihan Pengolahan Hasil Perikanan / Kelautan"}, {"kode": "04.01.91.","nama": "Peningkatan Produksi Kelautan"}]}, {"kode": "04.02.","nama": "Sub Bidang Pertanian dan Peternakan","kegiatan": [{"kode": "04.02.01.","nama": "Peningkatan Produksi Tanaman Pangan (alat produksi/pengelolaan/penggilingan)"}, {"kode": "04.02.02.","nama": "Peningkatan Produksi Peternakan (alat produksi/pengelolaan/kandang)"}, {"kode": "04.02.03.","nama": "Penguatan Ketahanan Pangan Tingkat Desa (Lumbung Desa dll)"}, {"kode": "04.02.04.","nama": "Pemeliharaan Saluran Irigasi Tersier/Sederhana"}, {"kode": "04.02.05.","nama": "Pelatihan/Bimtek/Pengenalan Teknologi Tepat Guna untuk Pertanian/Peternakan"}, {"kode": "04.02.06.","nama": "Pembangunan/Rehabilitasi/Peningkatan Saluran Irigasi Tersier/Sederhana"}, {"kode": "04.02.90.","nama": "Pembangunan/ Rehabilitasi Sarana dan Prasarana Pembenihan"}, {"kode": "04.02.91.","nama": "Pelatihan Pengolahan Hasil Pertanian/Peternakan"}]}, {"kode": "04.03.","nama": "Sub Bidang Peningkatan Kapasitas Aparatur Desa","kegiatan": [{"kode": "04.03.01.","nama": "Peningkatan Kapasitas Kepala Desa"}, {"kode": "04.03.02.","nama": "Peningkatan Kapasitas Perangkat Desa"}, {"kode": "04.03.03.","nama": "Peningkatan Kapasitas BPD"}, {"kode": "04.03.90.","nama": "Study Banding/Pelatihan"}]}, {"kode": "04.04.","nama": "Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga","kegiatan": [{"kode": "04.04.01.","nama": "Pelatihan dan Penyuluhan Pemberdayaan Perempuan"}, {"kode": "04.04.02.","nama": "Pelatihan dan Penyuluhan Perlindungan Anak"}, {"kode": "04.04.03.","nama": "Pelatihan dan Penguatan Penyandang Difabel (Penyandang Disabilitas)"}, {"kode": "04.04.90.","nama": "Penguatan Hak Identitas Bagi Anak/ Perempuan"}, {"kode": "04.04.91.","nama": "Penyelenggaraan Desa Layak Anak"}, {"kode": "04.04.92.","nama": "Pemberdayaan Perempuan Melalui PKK"}, {"kode": "04.04.93.","nama": "Pelatihan / Penyuluhan Bagi Tenaga Kerja Perempuan"}]}, {"kode": "04.05.","nama": "Sub Bidang Koperasi, Usaha Micro Kecil dan Menengah (UMKM)","kegiatan": [{"kode": "04.05.01.","nama": "Pelatihan Manajemen Koperasi/KUD/UMKM"}, {"kode": "04.05.02.","nama": "Pengembangan Sarana Prasarana Usaha Mikro, Kecil, Menengah dan Koperasi"}, {"kode": "04.05.03.","nama": "Pengadaan Teknologi Tepat Guna Untuk Pengembangan Ekonomi Pedesaan Non Pertanian"}]}, {"kode": "04.06.","nama": "Sub Bidang Dukungan Penanaman Modal","kegiatan": [{"kode": "04.06.01.","nama": "Pembentukan BUM Desa (Persiapan dan Pembentukan Awal BUMDesa)"}, {"kode": "04.06.02.","nama": "Pelatihan Pengelolaan BUM Desa (Pelatihan yg dilaksanakan oleh Pemdes)"}]}, {"kode": "04.07.","nama": "Sub Bidang Perdagangan dan Perindustrian","kegiatan": [{"kode": "04.07.01.","nama": "Pemeliharaan Pasar Desa/Kios Milik Desa"}, {"kode": "04.07.02.","nama": "Pembangunan/Rehab Pasar Desa/Kios Milik Desa"}, {"kode": "04.07.03.","nama": "Pengembangan Industri Kecil Tingkat Desa"}, {"kode": "04.07.04.","nama": "Pembentukan/Fasilitasi/Pelatihan/Pendampingan kelompok usaha ekonomi produktif"}]}]}, {"kode": "05","nama": "BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA","subBidang": [{"kode": "05.01.","nama": "Sub Bidang Penanggulangan Bencana","kegiatan": [{"kode": "05.01.00.","nama": "Kegiatan Penanggulangan Bencana"}]}, {"kode": "05.02.","nama": "Sub Bidang Keadaan Darurat","kegiatan": [{"kode": "05.02.00.","nama": "Penanganan Keadaan Darurat"}]}, {"kode": "05.03.","nama": "Sub Bidang Keadaan Mendesak","kegiatan": [{"kode": "05.03.00.","nama": "Penanganan Keadaan Mendesak"}]}]}];
+const RAB_PARAMETERS = [{"kode": "01","nama": "BIDANG PENYELENGGARAN PEMERINTAHAN DESA","subBidang": [{"kode": "01.01.","nama": "Penyelenggaran Belanja Siltap, Tunjangan dan Operasional Pemerintahan Desa","kegiatan": [{"kode": "01.01.01.","nama": "Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa"}, {"kode": "01.01.02.","nama": "Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa"}, {"kode": "01.01.03.","nama": "Penyediaan Jaminan Sosial bagi Kepala Desa dan Perangkat Desa"}, {"kode": "01.01.04.","nama": "Penyediaan Operasional Pemerintah Desa (ATK, Honor PKPKD dan PPKD dll)"}, {"kode": "01.01.05.","nama": "Penyediaan Tunjangan BPD"}, {"kode": "01.01.06.","nama": "Penyediaan Operasional BPD (rapat, ATK, Makan Minum, Pakaian Seragam, Listrik dll)"}, {"kode": "01.01.07.","nama": "Penyediaan Insentif/Operasional RT/RW"}, {"kode": "01.01.08.","nama": "Penyediaan Operasional Pemerintah Desa yang bersumber dari Dana Desa"}, {"kode": "01.01.90.","nama": "Penyediaan Tunjangan Kepala Desa Persiapan"}, {"kode": "01.01.91.","nama": "Penyediaan Penghasilan Tetap Perangkat Desa Persiapan"}, {"kode": "01.01.92.","nama": "Penyediaan Jaminan Sosial bagi BPD"}, {"kode": "01.01.93.","nama": "Penyediaan Jaminan Sosial Bagi Lembaga Kemasyarakatan Desa"}]}, {"kode": "01.02.","nama": "Penyediaan Sarana Prasarana Pemerintahan Desa","kegiatan": [{"kode": "01.02.01.","nama": "Penyediaan Sarana (Aset Tetap) Perkantoran/Pemerintahan"}, {"kode": "01.02.02.","nama": "Pemeliharaan Gedung/Prasarana Kantor Desa"}, {"kode": "01.02.03.","nama": "Pembangunan/Rehabilitasi/Peningkatan Gedung/Prasarana Kantor Desa **)"}]}, {"kode": "01.03.","nama": "Pengelolaan Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan","kegiatan": [{"kode": "01.03.01.","nama": "Pelayanan Administrasi Umum dan Kependudukan"}, {"kode": "01.03.02.","nama": "Penyusunan, Pendataan, dan Pemutakhiran Profil Desa **)"}, {"kode": "01.03.03.","nama": "Pengelolaan Administrasi dan Kearsipan Pemerintahan Desa"}, {"kode": "01.03.04.","nama": "Penyuluhan dan Penyadaran Masyarakat tentang Kependudukan dan Capil"}, {"kode": "01.03.05.","nama": "Pemetaan dan Analisis Kemiskinan Desa secara Partisipatif"}]}, {"kode": "01.04.","nama": "Penyelenggaraan Tata Praja Pemerintahan, Perencanaan, Keuangan dan Pelaporan","kegiatan": [{"kode": "01.04.01.","nama": "Penyelenggaraan Musyawarah Perencanaan Desa/Pembahasan APBDes (Reguler)"}, {"kode": "01.04.02.","nama": "Penyelenggaraan Musyawarah Desa Lainnya (Musdus, Rembug desa Non Reguler)"}, {"kode": "01.04.03.","nama": "Penyusunan Dokumen Perencanaan Desa (RPJMDesa/RKPDesa dll)"}, {"kode": "01.04.04.","nama": "Penyusunan Dokumen Keuangan Desa (APBDes, APBDes Perubahan, LPJ dll)"}, {"kode": "01.04.05.","nama": "Pengelolaan Administrasi/ Inventarisasi/Penilaian Aset Desa"}, {"kode": "01.04.06.","nama": "Penyusunan Kebijakan Desa (Perdes/Perkades selain Perencanaan/Keuangan)"}, {"kode": "01.04.07.","nama": "Penyusunan Laporan Kepala Desa, LPPDesa dan Informasi Kepada Masyarakat"}, {"kode": "01.04.08.","nama": "Pengembangan Sistem Informasi Desa"}, {"kode": "01.04.09.","nama": "Koordinasi/Kerjasama Penyelenggaraan Pemerintahan & Pembangunan Desa"}, {"kode": "01.04.10.","nama": "Dukungan & Sosialisasi Pelaksanaan Pilkades, Pemilihan Ka. Kewilayahan & BPD"}, {"kode": "01.04.11.","nama": "Penyelenggaraan Lomba antar Kewilayahan & Pengiriman Kontingen dalam Mengikuti Lomba Desa"}, {"kode": "01.04.12.","nama": "Dukungan Biaya Operasional dan Biaya Lainnya untuk Desa Persiapan"}]}, {"kode": "01.05.","nama": "Sub Bidang Pertanahan","kegiatan": [{"kode": "01.05.01.","nama": "Sertifikasi Tanah Kas Desa"}, {"kode": "01.05.02.","nama": "Administrasi Pertanahan (Pendaftaran Tanah dan Pemberian Registrasi Agenda Pertanahan)"}, {"kode": "01.05.03.","nama": "Fasilitasi Sertifikasi Tanah untuk Masyarakat Miskin"}, {"kode": "01.05.04.","nama": "Kegiatan Mediasi Konflik Pertanahan"}, {"kode": "01.05.05.","nama": "Kegiatan Penyuluhan Pertanahan"}, {"kode": "01.05.06.","nama": "Adminstrasi Pajak Bumi dan Bangunan (PBB)"}, {"kode": "01.05.07.","nama": "Penentuan/Penegasan Batas/patok Tanah Kas Desa"}]}]}, {"kode": "02","nama": "BIDANG PELAKSANAAN PEMBANGUNAN DESA","subBidang": [{"kode": "02.01.","nama": "Sub Bidang Pendidikan","kegiatan": [{"kode": "02.01.01.","nama": "Penyelenggaraan PAUD/TK/TPA/TKA/TPQ/Madrasah Non-Formal Milik Desa (Honor, Pakaian dll)"}, {"kode": "02.01.02.","nama": "Dukungan Penyelenggaraan PAUD (APE, Sarana PAUD dst)"}, {"kode": "02.01.03.","nama": "Penyuluhan dan Pelatihan Pendidikan Bagi Masyarakat"}, {"kode": "02.01.04.","nama": "Pemeliharaan Sarana Prasarana Perpustakaan/Taman Bacaan/Sanggar Belajar Milik Desa"}, {"kode": "02.01.05.","nama": "Pemeliharaan Sarana Prasarana PAUD/TK/ΤΡΑ/ΤΚΑ/TPQ/Madrasah Non-formal Milik Desa"}, {"kode": "02.01.06.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana/Alat Peraga PAUD/TK/TPA/ΤΚΑ/TPQ/M"}, {"kode": "02.01.07.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana/Prasarana Perpustakaan/Taman Bacaan Desa/ Sanggar Belaja"}, {"kode": "02.01.08.","nama": "Pengelolaan Perpustakaan Milik Desa (Pengadaan Buku, Honor, Taman Baca)"}, {"kode": "02.01.09.","nama": "Pengembangan dan Pembinaan Sanggar Seni dan Belajar"}, {"kode": "02.01.10.","nama": "Dukungan Pendidikan bagi Siswa Miskin/Berprestasi"}]}, {"kode": "02.02.","nama": "Sub Bidang Kesehatan","kegiatan": [{"kode": "02.02.01.","nama": "Penyelenggaraan Pos Kesehatan Desa/Polindes Milik Desa (obat, Insentif, KB, dsb)"}, {"kode": "02.02.02.","nama": "Penyelenggaraan Posyandu (Makanan Tambahan, Kelas Bumil, Lansia, Insentif)"}, {"kode": "02.02.03.","nama": "Penyuluhan dan Pelatihan Bidang Kesehatan (Untuk Masyarakat, Tenaga dan Kader Kesehatan dil)"}, {"kode": "02.02.04.","nama": "Penyelenggaraan Desa Siaga Kesehatan"}, {"kode": "02.02.05.","nama": "Pembinaan Palang Merah Remaja (PMR) Tingkat Desa"}, {"kode": "02.02.06.","nama": "Pengasuhan Bersama atau Bina Keluarga Balita (BKB)"}, {"kode": "02.02.07.","nama": "Pembinaan dan Pengawasan Upaya Kesehatan Tradisional"}, {"kode": "02.02.08.","nama": "Pemeliharaan Sarana Prasarana Posyandu/Polindes/PKD"}, {"kode": "02.02.09.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana Posyandu/Polindes/PKD **"}]}, {"kode": "02.03.","nama": "Sub Bidang Pekerjaan Umum dan Penataan Ruang","kegiatan": [{"kode": "02.03.01.","nama": "Pemeliharaan Jalan Desa"}, {"kode": "02.03.02.","nama": "Pemeliharaan Jalan Lingkungan Pemukiman/Gang"}, {"kode": "02.03.03.","nama": "Pemeliharaan Jalan Usaha Tani"}, {"kode": "02.03.04.","nama": "Pemeliharaan Jembatan Desa"}, {"kode": "02.03.05.","nama": "Pemeliharaan Prasarana Jalan Desa (Gorong-gorong/Selokan/Parit/Drainase dll)"}, {"kode": "02.03.06.","nama": "Pemeliharaan Gedung/Prasarana Balai Desa/Balai Kemasyarakatan"}, {"kode": "02.03.07.","nama": "Pemeliharaan Pemakaman /Situs Bersejarah/Petilasan Milik Desa"}, {"kode": "02.03.08.","nama": "Pemeliharaan Embung Milik Desa"}, {"kode": "02.03.09.","nama": "Pemeliharaan Monumen/Gapura/Batas Desa"}, {"kode": "02.03.10.","nama": "Pembangunan/Rehabilitas/Peningkatan/Pengerasan Jalan Desa **)"}, {"kode": "02.03.11.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Lingkungan Permukiman **)"}, {"kode": "02.03.12.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Usaha Tani **)"}, {"kode": "02.03.13.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jembatan Milik Desa **)"}, {"kode": "02.03.14.","nama": "Pembangunan/Rehabilitasi/Peningkatan Prasarana Jalan Desa (Gorong, selokan dll)"}, {"kode": "02.03.15.","nama": "Pembangunan/Rehabilitasi/Peningkatan Balai Desa/Balai Kemasyarakatan **)"}, {"kode": "02.03.16.","nama": "Pembangunan/Rehabilitasi/Peningkatan Pemakaman Milik Desa/Situs Bersejarah Milik Desa/Petilasan"}, {"kode": "02.03.17.","nama": "Pembuatan/Pemutakhiran Peta Wilayah dan Sosial Desa **)"}, {"kode": "02.03.18.","nama": "Penyusunan Dokumen Perencanaan Tata Ruang Desa"}, {"kode": "02.03.19.","nama": "Pembangunan/Rehabilitasi/Peningkatan Embung Desa **)"}, {"kode": "02.03.20.","nama": "Pembangunan/Rehabilitasi/Peningkatan Monumen/Gapura/Batas Desa **)"}]}, {"kode": "02.04.","nama": "Sub Bidang Kawasan Pemukiman","kegiatan": [{"kode": "02.04.01.","nama": "Dukungan Pelaksanaan Program Pembangunan/Rehab Rumah Tidak Layak Huni GAKIN"}, {"kode": "02.04.02.","nama": "Pemeliharaan Sumur Resapan Milik Desa"}, {"kode": "02.04.03.","nama": "Pemeliharaan Sumber Air Bersih Milik Desa (Mata Air, Penampung Air, Sumur Bor dll)"}, {"kode": "02.04.04.","nama": "Pemeliharaan Sambungan Air Bersih ke Rumah Tangga (Pipanisasi dll)"}, {"kode": "02.04.05.","nama": "Pemeliharaan Sanitasi Pemukiman (Gorong-gorong, Selokan, Parit diluar Prasarana Jalan))"}, {"kode": "02.04.06.","nama": "Pemeliharaan Fasilitas Jamban Umum/MCK Umum dil"}, {"kode": "02.04.07.","nama": "Pemeliharaan Fasilitas Pengelolaan Sampah Desa (Penampungan, Bank Sampah, dll)"}, {"kode": "02.04.08.","nama": "Pemeliharaan Sistem Pembuangan Air Limbah (Drainase, Air limbah Rumah Tangga)"}, {"kode": "02.04.09.","nama": "Pemeliharaan Taman/Taman Bermain Anak Milik Desa"}, {"kode": "02.04.10.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sumur Resapan **)"}, {"kode": "02.04.11.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sumber Air Bersih Milik Desa **)"}, {"kode": "02.04.12.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sambungan Air Bersih ke Rumah Tangga **)"}, {"kode": "02.04.13.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sanitasi Permukiman **)"}, {"kode": "02.04.14.","nama": "Pembangunan/Rehabilitasi/Peningkatan Fasilitas Jamban Umum/MCK umum, dll **)"}, {"kode": "02.04.15.","nama": "Pembangunan/Rehabilitasi/Peningkatan Fasilitas Pengelolaan Sampah **)"}, {"kode": "02.04.16.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sistem Pembuangan Air Limbah **)"}, {"kode": "02.04.17.","nama": "Pembangunan/Rehabilitasi/Peningkatan Taman/Taman Bermain Anak Milik Desa **)"}]}, {"kode": "02.05.","nama": "Sub Bidang Kehutanan dan Lingkungan Hidup","kegiatan": [{"kode": "02.05.01.","nama": "Pengelolaan Hutan Milik Desa"}, {"kode": "02.05.02.","nama": "Pengelolaan Lingkungan Hidup Milik Desa"}, {"kode": "02.05.03.","nama": "Pelatihan/Sosialisasi/Penyuluhan/Penyadaran tentang LH danKehutanan **)"}]}, {"kode": "02.06.","nama": "Sub Bidang Perhubungan, Komunikasi dan Informatika","kegiatan": [{"kode": "02.06.01.","nama": "Pembuatan Rambu-rambu di Jalan Desa"}, {"kode": "02.06.02.","nama": "Penyelenggaraan Informasi Publik Desa (Poster, Baliho DII)"}, {"kode": "02.06.03.","nama": "Pengelolaan dan Pembuatan Jaringan/Instalasi Komunikasi dan Informasi Lokal Desa"}, {"kode": "02.06.04.","nama": "Pemeliharaan Sarana dan Prasarana Transportasi Desa"}, {"kode": "02.06.05.","nama": "Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana & Prasarana Transportasi Desa"}, {"kode": "02.06.90.","nama": "Penyelenggaraan Expo Pembangunan Desa"}]}, {"kode": "02.07.","nama": "Sub Bidang Energi dan Sumberdaya Mineral","kegiatan": [{"kode": "02.07.01.","nama": "Pemeliharaan Sarana dan Prasarana Energi Alternatif Tingkat Desa"}, {"kode": "02.07.02.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana & Prasarana Energi Alternatif Desa"}]}, {"kode": "02.08.","nama": "Sub Bidang Pariwisata","kegiatan": [{"kode": "02.08.01.","nama": "Pemeliharaan Sarana dan Prasarana Pariwisata Milik Desa"}, {"kode": "02.08.02.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Pariwisata Milik **)"}, {"kode": "02.08.03.","nama": "Pengembangan Pariwisata Tingkat Desa"}]}]}, {"kode": "03","nama": "BIDANG PEMBINAAN KEMASYARAKATAN","subBidang": [{"kode": "03.01.","nama": "Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat","kegiatan": [{"kode": "03.01.01.","nama": "Pengadaan/Penyelenggaraan Pos Keamanan Desa"}, {"kode": "03.01.02.","nama": "Penguatan & Peningkatan Kapasitas Tenaga Keamanan/Ketertiban oleh Pemdes"}, {"kode": "03.01.03.","nama": "Koordinasi Pembinaan Keamanan, Ketertiban & Perlindungan Masy. Skala Lokal Desa"}, {"kode": "03.01.04.","nama": "Persiapan Kesiapsiagaan/Tanggap Bencana Skala Lokal Desa"}, {"kode": "03.01.05.","nama": "Penyediaan Pos Kesiapsiagaan Bencana Skala Lokal Desa"}, {"kode": "03.01.06.","nama": "Bantuan Hukum Untuk Aparatur Desa dan Masyarakat Miskin"}, {"kode": "03.01.07.","nama": "Pelatihan/Penyuluhan/Sosialisasi kepada Masy. di Bid. Hukum & Pelindungan Masy."}]}, {"kode": "03.02.","nama": "Sub Bidang Kebudayaan dan Keagamaan","kegiatan": [{"kode": "03.02.01.","nama": "Pembinaan Group Kesenian dan Kebudayaan Tingkat Desa"}, {"kode": "03.02.02.","nama": "Pengiriman Kontingen Group Kesenian & Kebudayaan (Wakil Desa tkt. Kec/Kab/Kot)"}, {"kode": "03.02.03.","nama": "Penyelenggaraan Festival Kesenian, Adat/Kebudayaan, dan Keagamaan (HUT RI, Raya Keagamaan dil)"}, {"kode": "03.02.04.","nama": "Pemeliharaan Sarana Prasarana Kebudayaan, Rumah Adat dan Keagamaan Milik Desa"}, {"kode": "03.02.05.","nama": "Pembangunan/Rehabilitasi Sarana Prasarana Kebudayaan/Rumah Adat/Kegamaan Milik Desa **)"}]}, {"kode": "03.03.","nama": "Sub Bidang Kepemudaan dan Olahraga","kegiatan": [{"kode": "03.03.01.","nama": "Pengiriman Kontingen Kepemudaan & Olahraga Sebagai Wakil Desa tkt Kec/Kab/Kota"}, {"kode": "03.03.02.","nama": "Penyelenggaraan Pelatihan Kepemudaan Tingkat Desa"}, {"kode": "03.03.03.","nama": "Penyelenggaraan Festival/Lomba Kepemudaan dan Olahraga Tingkat Desa"}, {"kode": "03.03.04.","nama": "Pemeliharaan Sarana dan Prasarana Kepemudaan dan Olahraga Milik Desa"}, {"kode": "03.03.05.","nama": "Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Kepemudaan & Olahraga Milik Desa"}, {"kode": "03.03.06.","nama": "Pembinaan Karang Taruna/Klub Kepemudaan/Olahraga Tingkat Desa"}]}, {"kode": "03.04.","nama": "Sub Bidang Kelembagaan Masyarakat","kegiatan": [{"kode": "03.04.01.","nama": "Pembinaan Lembaga Adat"}, {"kode": "03.04.02.","nama": "Pembinaan LKMD/LPM/LPMD"}, {"kode": "03.04.03.","nama": "Pembinaan PKK"}, {"kode": "03.04.04.","nama": "Pelatihan Pembinaan Lembaga Kemasyarakatan"}, {"kode": "03.04.90.","nama": "Penyelenggaraan Balai Mediasi"}]}]}, {"kode": "04","nama": "BIDANG PEMBERDAYAAN MASYARAKAT","subBidang": [{"kode": "04.01.","nama": "Sub Bidang Kelautan dan Perikanan","kegiatan": [{"kode": "04.01.01.","nama": "Pemeliharaan Karamba/Kolam Perikanan Darat Milik Desa"}, {"kode": "04.01.02.","nama": "Pemeliharaan Pelabuhan Perikanan Sungai/Kecil Milik Desa"}, {"kode": "04.01.03.","nama": "Pembangunan/Rehabilitasi/Peningkatan Karamba/Kolam Perikanan Darat Milik Desa"}, {"kode": "04.01.04.","nama": "Pembangunan/Rehabilitasi/Peningkatan Pelabuhan Perikanan Sungai/Kecil Milik Desa"}, {"kode": "04.01.05.","nama": "Bantuan Perikanan (Bibit/Pakan/dll)"}, {"kode": "04.01.06.","nama": "Bimtek/Pelatihan/Pengenalan TTG untuk Perikanan Darat/Nelayan **)"}, {"kode": "04.01.90.","nama": "Pelatihan Pengolahan Hasil Perikanan / Kelautan"}, {"kode": "04.01.91.","nama": "Peningkatan Produksi Kelautan"}]}, {"kode": "04.02.","nama": "Sub Bidang Pertanian dan Peternakan","kegiatan": [{"kode": "04.02.01.","nama": "Peningkatan Produksi Tanaman Pangan (alat produksi/pengelolaan/penggilingan)"}, {"kode": "04.02.02.","nama": "Peningkatan Produksi Peternakan (alat produksi/pengelolaan/kandang)"}, {"kode": "04.02.03.","nama": "Penguatan Ketahanan Pangan Tingkat Desa (Lumbung Desa dll)"}, {"kode": "04.02.04.","nama": "Pemeliharaan Saluran Irigasi Tersier/Sederhana"}, {"kode": "04.02.05.","nama": "Pelatihan/Bimtek/Pengenalan Teknologi Tepat Guna untuk Pertanian/Peternakan"}, {"kode": "04.02.06.","nama": "Pembangunan/Rehabilitasi/Peningkatan Saluran Irigasi Tersier/Sederhana"}, {"kode": "04.02.90.","nama": "Pembangunan/ Rehabilitasi Sarana dan Prasarana Pembenihan"}, {"kode": "04.02.91.","nama": "Pelatihan Pengolahan Hasil Pertanian/Peternakan"}]}, {"kode": "04.03.","nama": "Sub Bidang Peningkatan Kapasitas Aparatur Desa","kegiatan": [{"kode": "04.03.01.","nama": "Peningkatan Kapasitas Kepala Desa"}, {"kode": "04.03.02.","nama": "Peningkatan Kapasitas Perangkat Desa"}, {"kode": "04.03.03.","nama": "Peningkatan Kapasitas BPD"}, {"kode": "04.03.90.","nama": "Study Banding/Pelatihan"}]}, {"kode": "04.04.","nama": "Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga","kegiatan": [{"kode": "04.04.01.","nama": "Pelatihan dan Penyuluhan Pemberdayaan Perempuan"}, {"kode": "04.04.02.","nama": "Pelatihan dan Penyuluhan Perlindungan Anak"}, {"kode": "04.04.03.","nama": "Pelatihan dan Penguatan Penyandang Difabel (Penyandang Disabilitas)"}, {"kode": "04.04.90.","nama": "Penguatan Hak Identitas Bagi Anak/ Perempuan"}, {"kode": "04.04.91.","nama": "Penyelenggaraan Desa Layak Anak"}, {"kode": "04.04.92.","nama": "Pemberdayaan Perempuan Melalui PKK"}, {"kode": "04.04.93.","nama": "Pelatihan / Penyuluhan Bagi Tenaga Kerja Perempuan"}]}, {"kode": "04.05.","nama": "Sub Bidang Koperasi, Usaha Micro Kecil dan Menengah (UMKM)","kegiatan": [{"kode": "04.05.01.","nama": "Pelatihan Manajemen Koperasi/KUD/UMKM"}, {"kode": "04.05.02.","nama": "Pengembangan Sarana Prasarana Usaha Mikro, Kecil, Menengah dan Koperasi"}, {"kode": "04.05.03.","nama": "Pengadaan Teknologi Tepat Guna Untuk Pengembangan Ekonomi Pedesaan Non Pertanian"}]}, {"kode": "04.06.","nama": "Sub Bidang Dukungan Penanaman Modal","kegiatan": [{"kode": "04.06.01.","nama": "Pembentukan BUM Desa (Persiapan dan Pembentukan Awal BUMDesa)"}, {"kode": "04.06.02.","nama": "Pelatihan Pengelolaan BUM Desa (Pelatihan yg dilaksanakan oleh Pemdes)"}]}, {"kode": "04.07.","nama": "Sub Bidang Perdagangan dan Perindustrian","kegiatan": [{"kode": "04.07.01.","nama": "Pemeliharaan Pasar Desa/Kios Milik Desa"}, {"kode": "04.07.02.","nama": "Pembangunan/Rehab Pasar Desa/Kios Milik Desa"}, {"kode": "04.07.03.","nama": "Pengembangan Industri Kecil Tingkat Desa"}, {"kode": "04.07.04.","nama": "Pembentukan/Fasilitasi/Pelatihan/Pendampingan kelompok usaha ekonomi produktif"}]}]}, {"kode": "05","nama": "BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA","subBidang": [{"kode": "05.01.","nama": "Sub Bidang Penanggulangan Bencana","kegiatan": [{"kode": "05.01.00.","nama": "Kegiatan Penanggulangan Bencana"}]}, {"kode": "05.02.","nama": "Sub Bidang Keadaan Darurat","kegiatan": [{"kode": "05.02.00.","nama": "Penanganan Keadaan Darurat"}]}, {"kode": "05.03.","nama": "Sub Bidang Keadaan Mendesak","kegiatan": [{"kode": "05.03.00.","nama": "Penanganan Keadaan Mendesak"}]}]}];
 
 // PERBAIKAN: Mengubah struktur BELANJA_ACCOUNTS agar sesuai dengan 3 level (Jenis, Objek, dan Rincian Obyek Kustom)
-const BELANJA_ACCOUNTS_DEFAULT = [
+const BELANJA_ACCOUNTS = [
     // === 5.1 Belanja Pegawai (DILENGKAPI) ===
     {kode: "5.1", nama: "Belanja Pegawai", jenis: [
         {kode: "5.1.1", nama: "Penghasilan Tetap dan Tunjangan Kepala Desa", obyek: [
@@ -2083,7 +1901,7 @@ const BELANJA_ACCOUNTS_DEFAULT = [
     // === 5.3 Belanja Modal (DILENGKAPI DARI OCR) ===
     {kode: "5.3", nama: "Belanja Modal", jenis: [
         {kode: "5.3.1", nama: "Belanja Modal Pengadaan Tanah", obyek: [
-            {kode: "5.3.1.01", nama: "Belanja Modal Pembebasan/Pembelian Tanah"}, 
+            {kode: "5.3.1.01", nama: "Belanja Modal Pembebasan/Pembelian Tanah"},
             {kode: "5.3.1.02", nama: "Belanja Modal Pembayaran Honorarium Tim Tanah"},
             {kode: "5.3.1.03", nama: "Belanja Modal Pengukuran dan Pembuatan Sertifikat Tanah"},
             {kode: "5.3.1.04", nama: "Belanja Modal Pengurukan dan Pematangan Tanah"},
@@ -2157,7 +1975,7 @@ const BELANJA_ACCOUNTS_DEFAULT = [
         ]}
     ]},
     
-    // === 5.4 Belanja Tidak Terduga (DILENGKAPI DARI OCR) ===
+    // === 5.4 Belanja Tidak Terduga (DARI OCR Page 10) ===
     {kode: "5.4", nama: "Belanja Tidak Terduga", jenis: [
         {kode: "5.4.1", nama: "Belanja Tidak Terduga", obyek: [
             {kode: "5.4.1.01", nama: "Belanja Tidak Terduga"}
@@ -2215,16 +2033,7 @@ const APBDES_FINANCING_ACCOUNTS = [
 ];
 // END NEW
 
-// NEW: Global parameters stored in Local Storage
-let RAB_PARAMETERS = loadData('RAB_PARAMETERS', RAB_PARAMETERS_DEFAULT); // Default parameter kegiatan
-let BELANJA_ACCOUNTS_GLOBAL = loadData('BELANJA_ACCOUNTS_GLOBAL', BELANJA_ACCOUNTS_DEFAULT); // Default parameter akun
-let KABUPATEN_SETTINGS = loadData('KABUPATEN_SETTINGS', {
-    namaKecamatan: 'Kecamatan Contoh',
-    namaKabupaten: 'Kabupaten Contoh',
-    namaProvinsi: 'Provinsi Contoh'
-});
 const PARAMETER_KEGIATAN = RAB_PARAMETERS; // PENTING: gunakan RAB_PARAMETERS sebagai sumber kebenasan
-
 
 /* === GLOBAL VARIABLE & DATA STORAGE (INTEGRATED) === */
 let currentFilterYear = new Date().getFullYear();
@@ -2252,7 +2061,6 @@ let desaSettings = loadData('desaSettings', {
 
 // Data RAB dan Setting (dari SIPDes-RAB)
 let rabData = loadData('rabData', []);
-let rkpData = loadData('RkpData', []); // Deklarasi rkpData di sini
 // NEW: Custom PKA List
 let customPKAList = loadData('customPKAList', []); 
 // NEW: Custom Akun Belanja Obyek
@@ -2296,13 +2104,6 @@ let KekayaanData = JSON.parse(localStorage.getItem('KekayaanData')) || [];
 let HasilData = JSON.parse(localStorage.getItem('HasilData') || '[]');
 let authenticatedUser = null; 
 let UserData = loadData('UserData', []); 
-
-// NEW: Data Store for Kabupaten Admin Simulation
-const KABUPATEN_DATA_KEY = 'sipdes_kabupaten_data_store';
-let kabupatenDataStore = loadData(KABUPATEN_DATA_KEY, {}); // Structure: { 'desa_id': { rabData: [], ... } }
-// NEW: Kabupaten Admin ID
-const KABUPATEN_ADMIN_ID = 'kabupaten_admin_user'; // Diubah untuk menghindari konflik
-let currentDesaIdForKabAdmin = localStorage.getItem('currentDesaIdForKabAdmin') || null;
 
 // NEW: Pagination Global Variables (Dihapus/diubah untuk menampilkan semua data)
 const rowsPerPage = 9999; // Ditingkatkan untuk menampilkan semua data
@@ -2362,11 +2163,10 @@ function hashPasswordSimple(password) {
 // Fungsi Format Rupiah & Angka (Dari SIPDes-RAB)
 function cleanAndParseFloat(value) {
     if (typeof value !== 'string') value = String(value);
-    const cleaned = value.replace(/[^0-9,]/g, '').replace(/\./g, '');
+    const cleaned = value.replace(/[^0-9,.]/g, '').replace(/\./g, '');
     const floatString = cleaned.replace(/,/g, '.');
     return parseFloat(floatString) || 0;
 }
-
 
 function formatRupiah(angka, isMoney = true) {
     let finalAngka = parseFloat(angka);
@@ -2397,34 +2197,27 @@ function formatRupiah(angka, isMoney = true) {
         rupiah = rupiah + ',00';
     }
 
-    return (isMoney ? 'Rp ' : '') + (rupiah || '0');
+    return rupiah || '0';
 }
-
 
 function formatNumberLive(input, isBlur = false) {
     let value = input.value;
-    const isMoney = input.id.includes('HargaSatuan') || input.id.includes('anggaran') || input.id.includes('nilai') || input.id.includes('biaya') || input.id.includes('jumlah');
+    const isMoney = input.id.includes('HargaSatuan') || input.id.includes('anggaran') || input.id.includes('nilai') || input.id.includes('biaya');
     
-    // 1. Simpan posisi kursor
-    let cursorPosition = input.selectionStart;
-    let originalLength = value.length;
-
-    // 2. Bersihkan nilai
-    value = value.replace(/[^0-9,]/g, '');
-    if (value.startsWith(',')) { value = "0" + value; }
-    
+    value = value.replace(/[^0-9,.]/g, '');
+    if (value.startsWith(',') || value.startsWith('.')) { value = "0" + value; }
+    value = value.replace(/\./g, '');
     const commaSplit = value.split(',');
     if (commaSplit.length > 2) { value = commaSplit[0] + ',' + commaSplit.slice(1).join(''); }
 
-    // 3. Format nilai
-    let cleanFloat = cleanAndParseFloat(value);
-    let formattedValue;
-
-    if (isBlur) {
-        formattedValue = formatRupiah(cleanFloat, isMoney).replace('Rp ', '');
-    } else {
-        let integerPart = commaSplit[0].replace(/\./g, '');
-        let decimalPart = commaSplit.length > 1 ? ',' + commaSplit[1] : (value.endsWith(',') ? ',' : '');
+    if (!isBlur) {
+        let cleanFloat = cleanAndParseFloat(value);
+        let formattedValue = formatRupiah(cleanFloat, false).replace(/,/g, 'XCOMMAX');
+        
+        formattedValue = formattedValue.replace(/[^0-9XCOMMAX]/g, '');
+        let parts = formattedValue.split('XCOMMAX');
+        let integerPart = parts[0] || '0';
+        let decimalPart = parts.length > 1 ? parts[1] : '';
 
         let sisa = integerPart.length % 3;
         let formattedInteger = integerPart.substr(0, sisa);
@@ -2434,14 +2227,15 @@ function formatNumberLive(input, isBlur = false) {
             let separator = sisa ? '.' : '';
             formattedInteger += separator + ribuan.join('.');
         }
-        formattedValue = formattedInteger + decimalPart;
-    }
+        
+        if (decimalPart) { input.value = formattedInteger + ',' + decimalPart; } 
+        else if (value.endsWith(',')) { input.value = formattedInteger + ','; } 
+        else { input.value = formattedInteger; }
 
-    // 4. Set nilai dan kembalikan posisi kursor
-    input.value = formattedValue;
-    let newLength = formattedValue.length;
-    cursorPosition += (newLength - originalLength);
-    input.setSelectionRange(cursorPosition, cursorPosition);
+    } else {
+        let floatValue = cleanAndParseFloat(value);
+        input.value = formatRupiah(floatValue, isMoney);
+    }
 }
 
 // Fungsi Hitung Total RAB (Dari SIPDes-RAB)
@@ -2482,78 +2276,30 @@ function updateElementContent(id, content) {
 // =======================================================================
 
 async function initializeAuthSystem() {
-    // Kredensial Default yang DIUBAH
-    const DEFAULT_ADMIN_USERNAME = 'admin_kab'; // NEW: Kredensial Admin Kabupaten Baru
-    const DEFAULT_ADMIN_PASS = 'admin_kab';      // NEW: Kredensial Admin Kabupaten Baru
-    const DEFAULT_OP_USERNAME = 'operator';
-    const DEFAULT_OP_PASS = 'operator';
-    
-    // Inisialisasi awal jika data hilang
     if (!sipdesAuthData || !sipdesAuthData.users || sipdesAuthData.users.length === 0) {
-        
-        let adminHash, opHash;
-        
-        // Menggunakan hash aman jika tersedia, fallback ke hash sederhana
-        try {
-             adminHash = await hashPassword(DEFAULT_ADMIN_PASS); 
-             opHash = await hashPassword(DEFAULT_OP_PASS);
-        } catch(e) {
-             adminHash = hashPasswordSimple(DEFAULT_ADMIN_PASS); 
-             opHash = hashPasswordSimple(DEFAULT_OP_PASS); 
+        // Fallback or Initial setup for local environment if data is missing
+        if (typeof crypto !== 'undefined' && crypto.subtle) {
+             const defaultAdminHash = await hashPassword('admin'); 
+             const defaultOpHash = await hashPassword('operator');
+             UserData = [
+                { id: 'admin', username: 'admin', passwordHash: defaultAdminHash, role: 'admin', expirationDate: null }, 
+                { id: 'operator', username: 'operator', passwordHash: defaultOpHash, role: 'operator', expirationDate: null }
+             ];
+        } else {
+            // Simple hash for environments without crypto.subtle (e.g., very old browsers, file:// protocol limits)
+            const defaultAdminHash = hashPasswordSimple('admin'); 
+            const defaultOpHash = hashPasswordSimple('operator');
+            UserData = [
+                { id: 'admin', username: 'admin', passwordHash: defaultAdminHash, role: 'admin', expirationDate: null }, 
+                { id: 'operator', username: 'operator', passwordHash: defaultOpHash, role: 'operator', expirationDate: null }
+             ];
         }
-
-        // --- AKUN PENGGUNA BARU ---
-        UserData = [
-            // NEW: Admin default sekarang adalah Admin Kabupaten
-            { id: KABUPATEN_ADMIN_ID, username: DEFAULT_ADMIN_USERNAME, passwordHash: adminHash, role: 'kabupaten_admin', expirationDate: null }, 
-            // NEW: Operator default tetap Operator Desa
-            { id: 'operator', username: DEFAULT_OP_USERNAME, passwordHash: opHash, role: 'operator', expirationDate: null }
-        ];
         
         sipdesAuthData = { users: UserData, currentUser: null };
         saveData('sipdesAuthData', sipdesAuthData);
         saveData('UserData', UserData); 
-        
     } else {
         UserData = sipdesAuthData.users;
-        
-        // Pengecekan Khusus: Jika ada user 'admin' lama, kita hapus/upgrade.
-        const existingKabAdmin = UserData.find(u => u.role === 'kabupaten_admin');
-        const existingAdminDesa = UserData.find(u => u.username === 'admin' && u.role === 'admin'); // Mencari admin/admin lama
-
-        if (!existingKabAdmin && existingAdminDesa) {
-             // 1. Hapus akun admin/admin lama dari array
-             UserData = UserData.filter(u => u.id !== 'admin');
-             
-             // 2. Buat akun Admin Kabupaten yang baru
-             let adminHash;
-             try { adminHash = await hashPassword(DEFAULT_ADMIN_PASS); } catch(e) { adminHash = hashPasswordSimple(DEFAULT_ADMIN_PASS); }
-             
-             const newKabAdminAccount = { 
-                 id: KABUPATEN_ADMIN_ID, 
-                 username: DEFAULT_ADMIN_USERNAME, 
-                 passwordHash: adminHash, 
-                 role: 'kabupaten_admin', 
-                 expirationDate: null 
-             };
-             
-             UserData.push(newKabAdminAccount);
-
-             // Simpan ke Local Storage
-             sipdesAuthData.users = UserData;
-             saveData('sipdesAuthData', sipdesAuthData);
-             saveData('UserData', UserData);
-             
-        } else if (existingKabAdmin && existingKabAdmin.username !== DEFAULT_ADMIN_USERNAME) {
-             // Kasus Khusus: Jika sudah ada Admin Kabupaten, tapi namanya lama ('kabupaten')
-             // Kita update namanya dan reset password-nya juga
-             existingKabAdmin.username = DEFAULT_ADMIN_USERNAME;
-             existingKabAdmin.passwordHash = await hashPassword(DEFAULT_ADMIN_PASS);
-
-             sipdesAuthData.users = UserData;
-             saveData('sipdesAuthData', sipdesAuthData);
-             saveData('UserData', UserData);
-        }
     }
 
     // NEW: Initialize customPKAList from old desaSettings if it exists and list is empty
@@ -2571,82 +2317,18 @@ async function initializeAuthSystem() {
     }
 }
 function updateUIAfterLogin(user) {
-    const isKabAdmin = user.role === 'kabupaten_admin';
-    const isInDesaContext = isKabAdmin && currentDesaIdForKabAdmin !== null;
-    const isDesaUser = !isKabAdmin || isInDesaContext;
-    
-    // 1. Context Banner
-    const contextBanner = document.getElementById('context_banner');
-    if (contextBanner) { // ADDED NULL CHECK
-         if (isInDesaContext) {
-             contextBanner.classList.remove('app-hidden');
-             const desaName = desaSettings.namaDesa || 'N/A';
-             document.getElementById('context_desa_name').textContent = desaName;
-         } else {
-             contextBanner.classList.add('app-hidden');
-         }
+    // Logo in sidebar is now handled by updateDesaLogoDisplay()
+    // document.getElementById('desa_logo').style.display = 'block'; 
+    if (user.role === 'admin') {
+        document.getElementById('menu_manajemen_user').classList.remove('app-hidden');
+    } else {
+        document.getElementById('menu_manajemen_user').classList.add('app-hidden');
     }
-
-    // 2. Sidebar Menu Visibility & Text
-    const menuItems = document.querySelectorAll('.sidebar a');
-    const menuKabupatenManagement = document.getElementById('menu_kabupaten_management');
-    const menuManajemenUser = document.getElementById('menu_manajemen_user');
-    const menuParameterManagement = document.getElementById('menu_parameter_management');
-
-
-    menuItems.forEach(a => {
-        // Hanya tampilkan menu inti dan menu admin yang relevan
-        const isCoreMenu = a.textContent.includes('Dashboard') || a.textContent.includes('Logout') || a === menuKabupatenManagement || a === menuManajemenUser || a === menuParameterManagement || a.textContent.includes('Pengaturan RAB') || a.textContent.includes('Hapus Semua Data'); // Tambah Hapus Semua Data dan Pengaturan RAB
-        
-        if (isCoreMenu) {
-            a.classList.remove('app-hidden');
-        } else {
-            // Sembunyikan semua menu desa standar jika Admin Kab tidak dalam konteks desa
-            a.classList.toggle('app-hidden', !isDesaUser); 
-        }
-    });
-
-    if (menuKabupatenManagement) {
-        if (isKabAdmin) {
-            menuKabupatenManagement.classList.remove('app-hidden');
-            menuKabupatenManagement.innerHTML = isInDesaContext 
-                ? '⬅️ Kembali ke Monitoring Kabupaten' 
-                : '🔑 Admin Kabupaten';
-        } else {
-            menuKabupatenManagement.classList.add('app-hidden');
-        }
-    }
-    
-    if (menuManajemenUser) {
-         // Tampilkan Manajemen User untuk Admin Desa DAN Admin Kabupaten
-        menuManajemenUser.classList.toggle('app-hidden', !(user.role === 'admin' || user.role === 'kabupaten_admin'));
-    }
-    
-    if (menuParameterManagement) {
-         // Tampilkan Kelola Parameter hanya untuk Admin Kabupaten
-         menuParameterManagement.classList.toggle('app-hidden', !isKabAdmin);
-    }
-
-    // 3. Filter Bar Visibility
-    const filterBar = document.querySelector('.filter-bar');
-    if (filterBar) {
-         filterBar.style.display = isDesaUser ? 'flex' : 'none';
-    }
-    
-    // 4. Dashboard Button Visibility
-    const ownAccountButton = document.querySelector('#Dashboard button[onclick="editOwnUserAccount()"]');
-    if (ownAccountButton) { // ADDED NULL CHECK
-        // Tampilkan tombol untuk Admin Desa dan Admin Kabupaten (saat dalam konteks Desa)
-        ownAccountButton.classList.toggle('app-hidden', !isDesaUser); 
-    }
-
-
     updateDesaLogoDisplay();
     renderSidebarWilayah();
     // Ensure app container is visible after successful login/check
     document.getElementById('app_container').classList.remove('app-hidden');
     document.getElementById('login_overlay').style.display = 'none';
-    
 }
 
 async function loginUser() {
@@ -2655,7 +2337,7 @@ async function loginUser() {
     const password = document.getElementById('password_input').value;
     const messageElement = document.getElementById('login_message');
 
-    if (!sipdesAuthData || !sipdesAuthData.users || sipdesAuthData.users.length === 0) {
+    if (!sipdesAuthData || sipdesAuthData.users || sipdesAuthData.users.length === 0) {
         await initializeAuthSystem(); 
     }
     
@@ -2697,7 +2379,7 @@ async function loginUser() {
             const initialModuleId = document.querySelector('.module-content.active').id;
             renderModuleData(initialModuleId);
 
-            hideSplash(() => { alert(`✅ Selamat datang, ${user.username}! (Role: ${user.role})`); });
+            hideSplash(() => { alert(`✅ Selamat datang, ${user.username}!`); });
         } else {
             messageElement.textContent = 'Login Gagal. Username atau Password salah!';
             document.getElementById('password_input').value = '';
@@ -2706,113 +2388,21 @@ async function loginUser() {
     }, 700);
 }
 
-// NEW: Helper function to save current active Desa context back to Kab Store
-function saveCurrentDesaContextToKabStore() {
-    if (!currentDesaIdForKabAdmin || authenticatedUser?.role !== 'kabupaten_admin') return;
-
-    // Backup the current data from Local Storage to the Kab Store
-    kabupatenDataStore[currentDesaIdForKabAdmin] = {
-        rabData: loadData('rabData', []),
-        rkpData: loadData('RkpData', []),
-        RealisasiData: loadData('RealisasiData', []),
-        KekayaanData: loadData('KekayaanData', []),
-        HasilData: loadData('HasilData', []),
-        desaSettings: loadData('desaSettings', {}),
-        desaLogoBase64: localStorage.getItem('desaLogoBase64') || '',
-        customPKAList: loadData('customPKAList', []),
-        customObyekAccounts: loadData('customObyekAccounts', []),
-        profilDesaData: loadData('profilDesaData', {}),
-        rpjmDesData: loadData('rpjmDesData', {}),
-        UserData: loadData('UserData', [])
-    };
-    saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-    console.log(`Context Desa ${currentDesaIdForKabAdmin} saved back to Kabupaten Store.`);
-}
-
-// NEW: Function to exit village context (for Kab Admin)
-function exitVillageContext() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin' || !currentDesaIdForKabAdmin) return;
-    
-    if (!confirm(`Anda yakin ingin KELUAR dari konteks Desa ${desaSettings.namaDesa}? Data yang belum tersimpan akan disimpan otomatis.`)) {
-         return;
-    }
-
-    showSplash(`Menyimpan data Desa ${desaSettings.namaDesa} dan keluar...`);
-    
-    // 1. Save the current context back to the store
-    saveCurrentDesaContextToKabStore();
-
-    // 2. Clear context and force reload (will re-authenticate as original Kab Admin)
-    localStorage.removeItem('currentDesaIdForKabAdmin');
-    sessionStorage.removeItem('auth_user'); 
-    
-    // Clear Desa specific data from Local Storage (except Kab Store and Kab Admin user data)
-    localStorage.removeItem('rabData');
-    localStorage.removeItem('RkpData');
-    localStorage.removeItem('RealisasiData');
-    localStorage.removeItem('KekayaanData');
-    localStorage.removeItem('HasilData');
-    localStorage.removeItem('desaSettings');
-    localStorage.removeItem('desaLogoBase64');
-    localStorage.removeItem('customPKAList');
-    localStorage.removeItem('customObyekAccounts');
-    localStorage.removeItem('profilDesaData');
-    localStorage.removeItem('rpjmDesData');
-    localStorage.removeItem('UserData');
-    
-    // Force reload to re-initialize the app as the original Kab Admin
-    setTimeout(() => {
-        window.location.reload(); 
-    }, 500);
-}
-
 function logoutUser() {
-    // 1. Simpan data Desa yang sedang aktif kembali ke store Kabupaten (jika Admin Kab)
-    if (authenticatedUser?.role === 'kabupaten_admin' && currentDesaIdForKabAdmin) {
-        saveCurrentDesaContextToKabStore();
-    }
-    
     showSplash("Logging out...");
     setTimeout(() => {
         authenticatedUser = null;
         sessionStorage.removeItem('auth_user'); 
         
-        localStorage.removeItem('currentDesaIdForKabAdmin'); 
-
         sipdesAuthData.currentUser = null;
+        saveData('sipdesAuthData', sipdesAuthData);
 
-        // --- PENCEGAHAN KEHILANGAN DATA KABUPATEN ADMIN ---
-        const kabStoreBackup = localStorage.getItem(KABUPATEN_DATA_KEY);
-        const rabParamBackup = localStorage.getItem('RAB_PARAMETERS');
-        const belanjaAccBackup = localStorage.getItem('BELANJA_ACCOUNTS_GLOBAL');
-        const kabSettingsBackup = localStorage.getItem('KABUPATEN_SETTINGS');
-        
-        // Hapus semua data (karena Local Storage digunakan untuk konteks Desa yang sedang aktif)
-        localStorage.clear(); 
-        
-        // Restore hanya data yang dibutuhkan Admin Kabupaten untuk login berikutnya
-        if (kabStoreBackup) localStorage.setItem(KABUPATEN_DATA_KEY, kabStoreBackup);
-        if (rabParamBackup) localStorage.setItem('RAB_PARAMETERS', rabParamBackup);
-        if (belanjaAccBackup) localStorage.setItem('BELANJA_ACCOUNTS_GLOBAL', belanjaAccBackup);
-        if (kabSettingsBackup) localStorage.setItem('KABUPATEN_SETTINGS', kabSettingsBackup);
-
-        // Restore user Admin Kabupaten
-        initializeAuthSystem().then(() => {
-             // Simpan kembali data auth Kab Admin yang sudah diinisialisasi
-             const restoredAuthData = loadData('sipdesAuthData', {});
-             localStorage.setItem('sipdesAuthData', JSON.stringify(restoredAuthData));
-             localStorage.setItem('UserData', JSON.stringify(restoredAuthData.users || []));
-        });
-        
         document.getElementById('login_overlay').style.display = 'flex';
         document.getElementById('app_container').classList.add('app-hidden');
         document.getElementById('username_input').value = '';
         document.getElementById('password_input').value = '';
         document.getElementById('login_message').textContent = '';
         updateDesaLogoDisplay(); 
-        
-        // Force reload to re-initialize data/auth system correctly
-        window.location.reload(); 
         hideSplash();
     }, 500);
 }
@@ -2933,9 +2523,6 @@ function updateFilterYearDisplay() {
     updateElementContent('hasil_current_year', currentFilterYear);
     updateElementContent('hasil_filter_year_label', currentFilterYear);
     updateElementContent('hasil_table_year', currentFilterYear);
-    
-    updateElementContent('kab_admin_filter_year', currentFilterYear);
-
 
     desaSettings.tahunAnggaran = String(currentFilterYear);
     saveData('desaSettings', desaSettings);
@@ -2954,32 +2541,6 @@ function setFilterYear(year) {
 
 function renderModuleData(moduleId) {
     if (!checkAuthentication(false)) return;
-    
-    // NEW: Handle Kabupaten Admin specific rendering
-    const isKabAdmin = authenticatedUser.role === 'kabupaten_admin';
-    const isInDesaContext = isKabAdmin && currentDesaIdForKabAdmin !== null;
-
-    if (isKabAdmin && !isInDesaContext) {
-         // Jika mencoba mengakses selain modul manajemen atau Dashboard, arahkan.
-         if (moduleId !== 'KabupatenManagement' && moduleId !== 'Dashboard' && moduleId !== 'ManajemenUser' && moduleId !== 'ParameterManagement') { // Tambah ParameterManagement
-              const kabMenu = document.getElementById('menu_kabupaten_management');
-              if(kabMenu) showModule(kabMenu, 'KabupatenManagement');
-              return;
-         }
-         
-         if (moduleId === 'Dashboard') {
-             renderDashboardKabAdmin();
-         } else if (moduleId === 'KabupatenManagement') {
-             renderKabupatenTable(); 
-         } else if (moduleId === 'ManajemenUser') {
-             renderUserTable(); 
-         } else if (moduleId === 'ParameterManagement') {
-             renderParameterManagement();
-         }
-         // Jika Kab Admin, jangan jalankan lagi logika render modul Desa
-         if (moduleId !== 'KabupatenManagement' && moduleId !== 'Dashboard' && moduleId !== 'ManajemenUser' && moduleId !== 'ParameterManagement') return;
-    }
-
 
     switch(moduleId) {
         case 'Dashboard': renderDashboardStats(); break;
@@ -3024,26 +2585,7 @@ function renderModuleData(moduleId) {
 function showModule(linkElement, moduleId) {
     if (!checkAuthentication()) return;
 
-    // NEW: Pengecekan Akses Admin Kabupaten (Role: kabupaten_admin)
-    const isKabAdmin = authenticatedUser.role === 'kabupaten_admin';
-    const isInDesaContext = isKabAdmin && currentDesaIdForKabAdmin !== null;
-
-    if (isKabAdmin && !isInDesaContext) {
-         if (moduleId !== 'Dashboard' && moduleId !== 'KabupatenManagement' && moduleId !== 'LaporanEksporData' && moduleId !== 'PengaturanRAB' && moduleId !== 'ManajemenUser' && moduleId !== 'ParameterManagement') {
-            alert('Akses Ditolak: Admin Kabupaten harus masuk ke konteks Desa tertentu untuk mengakses modul perencanaan.');
-            const kabMenu = Array.from(document.querySelectorAll('.sidebar a')).find(a => a.getAttribute('onclick')?.includes('KabupatenManagement'));
-            if(kabMenu) showModule(kabMenu, 'KabupatenManagement');
-            return;
-         }
-         // Jika modul adalah Admin Kabupaten, tapi tombolnya adalah "Kembali ke Monitoring", maka kembali ke Monitoring.
-         if(moduleId === 'KabupatenManagement' && linkElement?.textContent.includes('Kembali')) {
-             exitVillageContext(); // PENTING: Panggil exitVillageContext jika ingin keluar
-             return;
-         }
-    }
-
-
-    if (moduleId === 'ManajemenUser' && authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') {
+    if (moduleId === 'ManajemenUser' && authenticatedUser.role !== 'admin') {
         alert('Akses Ditolak: Hanya Admin yang dapat mengakses modul Manajemen Pengguna.');
         const lastActiveModule = localStorage.getItem('lastActiveModule') || 'Dashboard';
         if (lastActiveModule !== 'ManajemenUser') {
@@ -3058,23 +2600,6 @@ function showModule(linkElement, moduleId) {
         }
         return; 
     }
-    
-    // NEW: Handle visibility of role options inside ManajemenUser
-    if (moduleId === 'ManajemenUser') {
-        const kabAdminOption = document.querySelector('#user_role option[value="kabupaten_admin"]');
-        if (kabAdminOption) {
-            if (authenticatedUser.role === 'kabupaten_admin') {
-                 kabAdminOption.classList.remove('app-hidden');
-            } else {
-                 kabAdminOption.classList.add('app-hidden');
-                 // Ensure Admin Desa cannot set role to kabupaten_admin
-                 if (document.getElementById('user_role').value === 'kabupaten_admin') {
-                     document.getElementById('user_role').value = 'admin';
-                 }
-            }
-        }
-    }
-
 
     document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
     if (linkElement) linkElement.classList.add('active');
@@ -3120,24 +2645,6 @@ function clearRkpFilter() {
 
 // 4.1 DASHBOARD
 function renderDashboardStats() {
-    const isKabAdmin = authenticatedUser.role === 'kabupaten_admin';
-    const isInDesaContext = isKabAdmin && currentDesaIdForKabAdmin !== null;
-    
-    const desaStatsDiv = document.getElementById('dashboard_desa_stats');
-    const kabAdminSummaryDiv = document.getElementById('dashboard_kab_admin_summary');
-    
-    if (isKabAdmin && !isInDesaContext) {
-        // --- TAMPILAN DASHBOARD KABUPATEN ADMIN ---
-        desaStatsDiv.classList.add('app-hidden');
-        kabAdminSummaryDiv.classList.remove('app-hidden');
-        renderDashboardKabAdmin();
-        return;
-    } 
-    
-    // --- TAMPILAN DASHBOARD DESA / KAB ADMIN DALAM KONTEKS DESA ---
-    desaStatsDiv.classList.remove('app-hidden');
-    kabAdminSummaryDiv.classList.add('app-hidden');
-
     const RKP = getRKPData();
     const Realisasi = window.RealisasiData || JSON.parse(localStorage.getItem('RealisasiData') || '[]');
     const Kekayaan = window.KekayaanData || JSON.parse(localStorage.getItem('KekayaanData') || '[]');
@@ -3191,86 +2698,6 @@ function renderDashboardStats() {
     document.getElementById('monitoring_avg_progress').textContent = avgProgress + '%';
 }
 
-function renderDashboardKabAdmin() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    kabupatenDataStore = loadData(KABUPATEN_DATA_KEY, {});
-    const desaIds = Object.keys(kabupatenDataStore).filter(id => id !== 'desaSettings');
-    const tableContainer = document.getElementById('kab_desa_summary_output');
-    
-    document.getElementById('kab_admin_username_welcome').textContent = authenticatedUser.username;
-    
-    let totalDesa = desaIds.length;
-    let totalRkpAll = 0;
-    let totalAnggaranAll = 0;
-    let totalProgressSumAll = 0;
-    let totalProgressItemsAll = 0;
-
-    let tableHtml = '<table class="data-table"><thead><tr>';
-    tableHtml += '<th>#</th><th>Nama Desa / ID</th><th>Tahun Aktif</th><th>RKP Aktif</th><th>Total Anggaran RKP</th><th>Rata-rata Fisik</th><th>Aksi</th>';
-    tableHtml += '</tr></thead><tbody>';
-
-    if (totalDesa === 0) {
-        tableContainer.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px;">Belum ada Desa terdaftar di store Kabupaten.</p>';
-    } else {
-        desaIds.forEach((desaId, index) => {
-            const desaData = kabupatenDataStore[desaId];
-            const settings = desaData.desaSettings || { namaDesa: 'N/A', tahunAnggaran: currentFilterYear };
-            const dataYear = parseInt(settings.tahunAnggaran || currentFilterYear);
-
-            const filteredRkp = (desaData.rkpData || []).filter(rkp => parseInt(rkp.tahun) === dataYear);
-            const totalRkpAnggaran = filteredRkp.reduce((sum, rkp) => sum + cleanAndParseFloat(rkp.anggaran), 0);
-            
-            const RealisasiDataMap = (desaData.RealisasiData || []).filter(r => parseInt(r.tahun) === dataYear);
-            const itemsWithProgress = RealisasiDataMap.filter(r => r.progres_fisik !== undefined && r.progres_fisik !== null);
-            const overallTotalProgres = itemsWithProgress.reduce((sum, r) => sum + (Number(r.progres_fisik) || 0), 0);
-            const avgProgress = itemsWithProgress.length > 0 ? (overallTotalProgres / itemsWithProgress.length) : 0;
-            
-            const avgProgressRounded = avgProgress.toFixed(2);
-            const isContextActive = currentDesaIdForKabAdmin === desaId;
-            
-            // Aggregasi Total Kabupaten
-            totalRkpAll += filteredRkp.length;
-            totalAnggaranAll += totalRkpAnggaran;
-            totalProgressSumAll += overallTotalProgres;
-            totalProgressItemsAll += itemsWithProgress.length;
-
-
-            tableHtml += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>
-                        <strong style="color:${isContextActive ? '#d9534f' : '#004d40'};">${settings.namaDesa}</strong>
-                        <br><small style="color: #6c757d;">ID: ${desaId}</small>
-                        ${isContextActive ? '<span class="status-badge status-pelaksanaan">AKTIF</span>' : ''}
-                    </td>
-                    <td>${dataYear}</td>
-                    <td>${filteredRkp.length}</td>
-                    <td style="text-align: right;">${formatRupiah(totalRkpAnggaran)}</td>
-                    <td style="text-align: center;">
-                        <div class="progress-bar-container" style="width: 100px; margin: 0 auto;">
-                           <div class="progress-bar" style="width: ${avgProgressRounded}%; background-color: ${avgProgressRounded >= 70 ? '#28a745' : avgProgressRounded >= 40 ? '#ffc107' : '#dc3545'};">${avgProgressRounded}%</div>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="action-btn" style="background-color: #004d40;" onclick="switchVillageContext('${desaId}')" ${isContextActive ? 'disabled' : ''}>🚪 Masuk</button>
-                    </td>
-                </tr>
-            `;
-        });
-        tableHtml += '</tbody></table>';
-        tableContainer.innerHTML = tableHtml;
-    }
-    
-    // Update Cards
-    const overallAvgProgress = totalProgressItemsAll > 0 ? (totalProgressSumAll / totalProgressItemsAll).toFixed(2) : 0;
-    document.getElementById('kab_total_desa').textContent = totalDesa;
-    document.getElementById('kab_avg_rkp').textContent = totalDesa > 0 ? (totalRkpAll / totalDesa).toFixed(1) : 0;
-    document.getElementById('kab_total_anggaran_all').textContent = formatRupiah(totalAnggaranAll);
-    document.getElementById('kab_avg_progress_all').textContent = `${overallAvgProgress}%`;
-}
-
-
 // 4.2 RINGKASAN APBDES
 function renderRapbdesSummary() {
     const filteredRkp = getRKPData();
@@ -3310,13 +2737,13 @@ function renderRapbdesSummary() {
                 html += `<td rowspan="${rowSpan}" style="font-weight: bold; background-color: #f0fdf9; vertical-align: middle;">${bidang}</td>`;
             }
             html += `<td>${subBidang}</td>`;
-            html += `<td style="text-align: right;">${formatRupiah(bidangData.subBidang[subBidang])}</td>`;
+            html += `<td>${formatRupiah(bidangData.subBidang[subBidang])}</td>`;
             html += '</tr>';
         });
 
         html += `<tr>
             <td colspan="2" style="text-align: right; font-weight: bold; background-color: #e0f2f1;">Total Bidang ${bidang.split(' ')[0]}:</td>
-            <td style="font-weight: bold; background-color: #e0f2f1; text-align: right;">${formatRupiah(bidangData.total)}</td>
+            <td style="font-weight: bold; background-color: #e0f2f1;">${formatRupiah(bidangData.total)}</td>
         </tr>`;
     }
 
@@ -3397,6 +2824,7 @@ function renderRapbdesSumberDana() {
 // 4.3 RKP
 // START: PERBAIKAN - Perubahan fundamental pada Modul RKP
 // Data RKP sekarang disimpan di `rkpData`
+let rkpData = loadData('RkpData', []);
 
 function getRKPData() {
     // Fungsi ini sekarang hanya memfilter data RKP yang sudah ada
@@ -3431,7 +2859,7 @@ function showImportRkpModal() {
                         <div>
                             <strong>${item.kegiatanNama}</strong> (${item.uraianKegiatan})
                             <br>
-                            <small style="color: #00796b;">Lokasi: ${item.lokasi} | Volume: ${item.volume} | Anggaran: ${formatRupiah(cleanAndParseFloat(item.jumlah))}</small>
+                            <small style="color: #00796b;">Lokasi: ${item.lokasi} | Volume: ${item.volume} | Anggaran: Rp ${item.jumlah}</small>
                         </div>
                     </label>
                 </li>
@@ -3575,7 +3003,7 @@ function renderRkpTable() {
                         <small style="font-style: italic;">Volume: ${rkp.volume || 'N/A'}</small>
                     </td>
                     <td>${rkp.waktu_pelaksanaan}</td>
-                    <td style="text-align: right;">${formatRupiah(cleanAndParseFloat(rkp.anggaran))}</td>
+                    <td style="text-align: right;">${rkp.anggaran}</td>
                     <td>${rkp.sumber_dana}</td>
                     <td>
                         <button class="action-btn delete-btn" onclick="deleteRkp('${rkp.id}')">🗑️ Hapus</button>
@@ -3668,12 +3096,12 @@ function loadRkpDetails() {
     if (!planInput || !anggaranInput || !statusSelect || !keteranganTextarea) return; 
 
     if (rkp) {
-        planInput.value = formatRupiah(cleanAndParseFloat(rkp.anggaran));
+        planInput.value = rkp.anggaran;
         const existingRealisasi = RealisasiData.find(r => r.rkp_id === rkpId && parseInt(r.tahun) === currentFilterYear);
         
         if (existingRealisasi) {
             document.getElementById('realisasi_editing_id').value = existingRealisasi.id;
-            anggaranInput.value = formatRupiah(cleanAndParseFloat(existingRealisasi.realisasi_anggaran));
+            anggaranInput.value = existingRealisasi.realisasi_anggaran;
             statusSelect.value = existingRealisasi.status;
             keteranganTextarea.value = existingRealisasi.keterangan;
             alert('Data realisasi untuk RKP ini sudah ada. Form telah diisi dengan data yang tersimpan untuk diedit.');
@@ -3715,7 +3143,7 @@ function saveRealisasi() {
         id: id,
         rkp_id,
         tahun: currentFilterYear,
-        realisasi_anggaran: formatRupiah(cleanAndParseFloat(realisasi_anggaran)),
+        realisasi_anggaran,
         progres_fisik: parseFloat(progres_fisik),
         status,
         keterangan
@@ -3817,7 +3245,7 @@ function renderRealisasiTable() {
                 <br><span style="font-size: 0.9em; font-style: italic;">(Sub Kegiatan: ${subKegiatanDisplay})</span>
                 <br><small>${realisasi.keterangan}</small>
             </td>
-            <td style="text-align: right;">${rkp ? formatRupiah(cleanAndParseFloat(rkp.anggaran)) : 'N/A'}</td>
+            <td style="text-align: right;">${rkp ? rkp.anggaran : 'N/A'}</td>
             <td style="text-align: right;">${realisasi.realisasi_anggaran}</td>
             <td style="text-align: center;">${progressDisplay}</td>
             <td><span class="status-badge status-${realisasi.status.toLowerCase()}">${realisasi.status}</span></td>
@@ -3989,7 +3417,7 @@ function saveKekayaan() {
 
     if (!nama || !tahun_perolehan || !nilai || !kondisi) { alert('Nama, Tahun Perolehan, Nilai, dan Kondisi wajib diisi.'); return; }
 
-    const newKekayaan = { id, nama, kode, tahun_perolehan: parseInt(tahun_perolehan), nilai: formatRupiah(cleanAndParseFloat(nilai)), kondisi, keterangan };
+    const newKekayaan = { id, nama, kode, tahun_perolehan: parseInt(tahun_perolehan), nilai, kondisi, keterangan };
 
     const index = KekayaanData.findIndex(k => k.id === id);
     if (index > -1) { KekayaanData[index] = newKekayaan; } else { KekayaanData.push(newKekayaan); }
@@ -4036,7 +3464,7 @@ function saveHasil() {
 
     if (!nama || !tahun_selesai || !biaya) { alert('Nama Hasil Kegiatan, Tahun Selesai, dan Biaya Pembangunan wajib diisi.'); return; }
 
-    const newHasil = { id, nama, tahun_selesai: parseInt(tahun_selesai), lokasi, biaya: formatRupiah(cleanAndParseFloat(biaya)), manfaat };
+    const newHasil = { id, nama, tahun_selesai: parseInt(tahun_selesai), lokasi, biaya, manfaat };
 
     const index = HasilData.findIndex(h => h.id === id);
     if (index > -1) { HasilData[index] = newHasil; } else { HasilData.push(newHasil); }
@@ -4296,13 +3724,11 @@ function tampilkanWilayah() {
     }
     
     // Load from the consolidated source: desaSettings
-	
-	  const data = desaSettings;
+    const data = desaSettings;
 
     // Sidebar Info
     if (document.getElementById("nama_desa")) {
-        const desaDisplay = authenticatedUser?.role === 'kabupaten_admin' ? (currentDesaIdForKabAdmin ? `${data.namaDesa} (Context)` : 'Kabupaten Admin') : (data.namaDesa || 'Belum Diisi');
-        document.getElementById("nama_desa").textContent = desaDisplay;
+        document.getElementById("nama_desa").textContent = data.namaDesa || "";
         document.getElementById("nama_kecamatan").textContent = data.namaKecamatan ? "Kec. " + data.namaKecamatan : "";
         document.getElementById("nama_kabupaten").textContent = data.namaKabupaten ? "Kab. " + data.namaKabupaten : "";
         document.getElementById("nama_provinsi").textContent = data.namaProvinsi ? "Prov. " + data.namaProvinsi : "";
@@ -4476,7 +3902,7 @@ function populateRABBidangFilter(selectedValue = null) {
 
     RAB_PARAMETERS.forEach(bidang => {
         const option = document.createElement('option');
-		option.value = bidang.kode;
+        option.value = bidang.kode;
         option.textContent = `${bidang.kode} ${bidang.nama}`;
         if (bidang.kode === currentValue) {
              option.selected = true;
@@ -4586,7 +4012,7 @@ function populateJenisAkun(selectedJenis = null) {
     selectObyek.disabled = true;
 
     // Kelompok Belanja (5.X)
-    BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+    BELANJA_ACCOUNTS.forEach(kelompok => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = `${kelompok.kode} ${kelompok.nama}`;
         
@@ -4624,7 +4050,7 @@ function populateObyekAkun(selectedObyek = null) {
         let obyekList = []; // Array untuk menampung semua obyek (standar + kustom)
 
         // 1. Cari Objek Standar (Hardcoded)
-        BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+        BELANJA_ACCOUNTS.forEach(kelompok => {
             if (selectedJenis) return;
             selectedJenis = kelompok.jenis.find(j => j.kode === jenisKode);
         });
@@ -4682,7 +4108,7 @@ function populateObyekAkunSelectModal(selectedObyek = null) {
         let obyekList = []; 
 
         // 1. Cari Objek Standar (Hardcoded)
-        BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+        BELANJA_ACCOUNTS.forEach(kelompok => {
             if (selectedJenis) return;
             selectedJenis = kelompok.jenis.find(j => j.kode === jenisKode);
         });
@@ -4727,7 +4153,7 @@ function generateUraianPlaceholder() {
         const [k, j, t, o] = obyekKode.split('.');
         
         // Cari di hardcoded list
-        BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+        BELANJA_ACCOUNTS.forEach(kelompok => {
             if (kelompok.kode === `${k}`) {
                 kelompok.jenis.forEach(jenis => {
                     if (jenis.kode === `${k}.${j}.${t}`) {
@@ -4775,8 +4201,8 @@ function showSelectObyekModal() {
     // Clear old options in modal
     selectJenisModal.innerHTML = '<option value="">-- Pilih Jenis Belanja --</option>';
 
-   // Re-populate modal's Level 3 options from data
-    BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+    // Re-populate modal's Level 3 options from data
+    BELANJA_ACCOUNTS.forEach(kelompok => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = `${kelompok.kode} ${kelompok.nama}`;
         
@@ -4922,8 +4348,7 @@ function tampilkanFormRAB(index = -1) {
     document.getElementById('rabKegiatan').innerHTML = '<option value="">-- Pilih Kegiatan --</option>';
     document.getElementById('rabKegiatan').disabled = true;
     
-    
-// Reset dropdown impor RKPDes
+    // Reset dropdown impor RKPDes
     document.getElementById('select_from_rkpdes').value = ''; 
 
     if (index !== -1) {
@@ -5231,7 +4656,7 @@ function renderDetailBelanja() {
             totalJumlah += jumlah;
             
             const kodeAkunPenuh = item.kodeAkun;
-            const uraianRincian = item.uraian.startsWith(item.obyekNama) ? item.uraian : `${item.obyekNama} (${item.obyekNama})`; // FIX: Menggunakan item.uraian
+            const uraianRincian = item.uraian.startsWith(item.obyekNama) ? item.uraian : `${item.obyekNama} (${item.uraian})`;
 
             if (currentLevel5 !== kodeAkunPenuh) {
                 const obyekTotal = detailBelanja
@@ -5284,7 +4709,7 @@ function renderDetailBelanja() {
         
         let obyekNamaAktif = '';
         const jenisKode = currentObyekAkun.split('.').slice(0, 3).join('.');
-        let selectedJenis = BELANJA_ACCOUNTS_GLOBAL.flatMap(k => k.jenis).find(j => j.kode === jenisKode);
+        let selectedJenis = BELANJA_ACCOUNTS.flatMap(k => k.jenis).find(j => j.kode === jenisKode);
         if (selectedJenis) {
             const obyek = selectedJenis.obyek.find(o => o.kode === currentObyekAkun) || customObyekAccounts.find(o => o.kode === currentObyekAkun);
             obyekNamaAktif = obyek ? obyek.nama : '[Nama Objek Tidak Ditemukan]';
@@ -5430,7 +4855,7 @@ function simpanDetailBelanja(isContinue = false) {
     if (isNaN(volume) || isNaN(hargaSatuan)) { alert("Volume atau Harga Satuan yang diinput tidak valid."); return; }
     
     let obyekNama = '';
-    BELANJA_ACCOUNTS_GLOBAL.forEach(kelompok => {
+    BELANJA_ACCOUNTS.forEach(kelompok => {
         kelompok.jenis.forEach(jenis => {
             if (jenis.kode === jenisAkun) {
                 jenis.obyek.forEach(obyek => {
@@ -5510,7 +4935,7 @@ function hapusDetailBelanja(index) {
 // 4.9 PENGATURAN
 function saveRABSettings() {
     if (!checkAuthentication()) return;
-    if (authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') { alert('Akses ditolak. Hanya Admin.'); return; }
+    if (authenticatedUser.role !== 'admin') { alert('Akses ditolak. Hanya Admin.'); return; }
 
     desaSettings.namaKades = document.getElementById('settingNamaKades').value;
     desaSettings.namaSekdes = document.getElementById('settingNamaSekdes').value;
@@ -5548,7 +4973,7 @@ function clearCustomPKAForm() {
 
 function saveCustomPKA() {
     if (!checkAuthentication()) return;
-    if (authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') { alert('Akses ditolak. Hanya Admin.'); return; }
+    if (authenticatedUser.role !== 'admin') { alert('Akses ditolak. Hanya Admin.'); return; }
 
     const index = document.getElementById('pka_editing_index').value;
     const nama = document.getElementById('pka_nama_input').value;
@@ -5674,7 +5099,7 @@ function clearCustomObyekForm() {
 
 function saveCustomObyekAccount() {
     if (!checkAuthentication()) return;
-    if (authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') { alert('Akses ditolak. Hanya Admin.'); return; }
+    if (authenticatedUser.role !== 'admin') { alert('Akses ditolak. Hanya Admin.'); return; }
 
     const id = document.getElementById('obyek_editing_id').value;
     const kode = document.getElementById('obyek_kode_input').value.trim();
@@ -5761,72 +5186,23 @@ function clearUserForm() {
     document.getElementById('user_password').value = '';
     document.getElementById('user_role').value = 'operator';
     document.getElementById('user_is_demo').checked = false;
-    
-    // Sembunyikan field yang tidak relevan untuk admin kabupaten saat self-editing
-    const isKabAdmin = authenticatedUser.role === 'kabupaten_admin' && !currentDesaIdForKabAdmin;
-    if (document.getElementById('user_role')) document.getElementById('user_role').disabled = false;
-    if (document.getElementById('user_is_demo')) document.getElementById('user_is_demo').disabled = false;
-}
-
-/**
- * NEW: Membuka form edit untuk akun yang sedang login (Admin Desa Self-Management)
- */
-function editOwnUserAccount() {
-    if (!checkAuthentication()) return;
-    
-    // Pindahkan ke modul ManajemenUser
-    const linkElement = Array.from(document.querySelectorAll('.sidebar a')).find(a => a.getAttribute('onclick')?.includes('ManajemenUser'));
-    showModule(linkElement, 'ManajemenUser');
-
-    // Tunda sebentar untuk memastikan modul sudah terbuka dan tabel di-render
-    setTimeout(() => {
-        if (authenticatedUser && authenticatedUser.id) {
-            editUser(authenticatedUser.id);
-            // Tambahan untuk self-edit Admin Kab
-            if(authenticatedUser.role === 'kabupaten_admin' && authenticatedUser.id === KABUPATEN_ADMIN_ID) {
-                document.getElementById('user_role').disabled = true;
-                document.getElementById('user_is_demo').disabled = true;
-            }
-        } else {
-             alert('Informasi user tidak ditemukan.');
-        }
-    }, 100); 
 }
 
 async function saveUser() {
     if (!checkAuthentication()) return;
-    
-    const isKabAdmin = authenticatedUser.role === 'kabupaten_admin';
-    const isInDesaContext = isKabAdmin && currentDesaIdForKabAdmin !== null;
-    const isSelfEdit = document.getElementById('user_editing_id').value === authenticatedUser.id;
-
-    // Batasi akses/edit
-    if ((authenticatedUser.role !== 'admin' && !isKabAdmin) && !isSelfEdit) { 
-        alert('Akses ditolak. Anda hanya dapat mengedit akun Anda sendiri.'); 
+    if (authenticatedUser.role !== 'admin') { 
+        alert('Akses ditolak. Hanya Admin.'); 
         return; 
-    }
-    
-    // Batasi edit non-self untuk Operator
-    if (authenticatedUser.role === 'operator' && !isSelfEdit) {
-        alert('Akses ditolak. Operator hanya bisa mengedit akun sendiri.'); 
-        return;
     }
 
     const id = document.getElementById('user_editing_id').value;
     const username = document.getElementById('user_username').value;
     const password = document.getElementById('user_password').value;
-    let role = document.getElementById('user_role').value;
+    const role = document.getElementById('user_role').value;
     const isDemo = document.getElementById('user_is_demo').checked;
     let expirationDate = null;
 
     if (!username) { alert("Username wajib diisi!"); return; }
-    
-    // NEW: Batasan Role untuk Admin Desa
-    if (authenticatedUser.role === 'admin' && role === 'kabupaten_admin') {
-         alert('Admin Desa tidak dapat membuat atau mengubah akun menjadi Admin Kabupaten.');
-         document.getElementById('user_role').value = 'admin'; // Reset role
-         role = 'admin';
-    }
 
     const isEditing = id !== '';
     let userIndex = -1;
@@ -5839,12 +5215,6 @@ async function saveUser() {
             return;
         }
         userToEdit = UserData[userIndex];
-        
-        // Cek jika Admin mencoba mengubah Admin Kabupaten (Hanya Admin Kabupaten yang bisa)
-        if (userToEdit.role === 'kabupaten_admin' && authenticatedUser.role !== 'kabupaten_admin') {
-            alert('Akses Ditolak. Hanya Admin Kabupaten yang dapat mengubah akun Admin Kabupaten.');
-            return;
-        }
     } else {
         if (UserData.some(u => u.username.toLowerCase() === username.toLowerCase())) {
             alert('Username sudah digunakan.');
@@ -5852,15 +5222,8 @@ async function saveUser() {
         }
     }
 
-    const newUser = userToEdit || { id: isKabAdmin && !isInDesaContext && id === '' ? KABUPATEN_ADMIN_ID : 'user_' + Date.now(), username, passwordHash: '', role, expirationDate: null };
-    
-    // Jika Admin Kabupaten sedang self-edit, jangan ubah rolenya meskipun form-nya enabled (karena di-disabled di editOwnUserAccount)
-    if (isKabAdmin && isSelfEdit) {
-         newUser.role = 'kabupaten_admin';
-    } else {
-         newUser.role = role;
-    }
-    
+    const newUser = userToEdit || { id: 'user_' + Date.now(), username, passwordHash: '', role, expirationDate: null };
+    newUser.role = role;
     
     if (isDemo) {
         if (!isEditing || !newUser.expirationDate) {
@@ -5880,19 +5243,6 @@ async function saveUser() {
             newUser.passwordHash = hashPasswordSimple(password);
         }
         hideSplash();
-        
-        // Jika password diubah dan ini adalah akun yang sedang login, update session
-        if (isSelfEdit) {
-            authenticatedUser.passwordHash = newUser.passwordHash;
-            sessionStorage.setItem('auth_user', JSON.stringify(authenticatedUser));
-            
-            // Jika Admin Kabupaten mengubah passwordnya, update juga userData global
-             if (newUser.role === 'kabupaten_admin') {
-                 const kabAdminUserIndex = UserData.findIndex(u => u.id === KABUPATEN_ADMIN_ID);
-                 if(kabAdminUserIndex !== -1) UserData[kabAdminUserIndex] = newUser;
-             }
-        }
-        
     } else if (!isEditing) {
         alert("Password wajib diisi untuk pengguna baru!"); 
         return;
@@ -5917,12 +5267,6 @@ function editUser(id) {
     if (!checkAuthentication()) return;
     const user = UserData.find(u => u.id === id);
     if (user) {
-        // NEW: Batasi edit akun Admin Kabupaten oleh Admin Desa
-        if (user.role === 'kabupaten_admin' && authenticatedUser.role !== 'kabupaten_admin') {
-             alert('Akses Ditolak. Hanya Admin Kabupaten yang dapat mengubah akun Admin Kabupaten.');
-             return;
-        }
-        
         document.getElementById('user_editing_id').value = user.id;
         document.getElementById('user_username').value = user.username;
         document.getElementById('user_role').value = user.role;
@@ -5933,20 +5277,10 @@ function editUser(id) {
 
 function deleteUser(id) {
     if (!checkAuthentication()) return;
-    const userToDelete = UserData.find(u => u.id === id);
-    
     if (id === authenticatedUser.id) {
         alert('Anda tidak dapat menghapus akun Anda sendiri.');
         return;
     }
-    
-    // NEW: Batasi penghapusan akun Admin Kabupaten
-    if (userToDelete.role === 'kabupaten_admin' && authenticatedUser.role !== 'kabupaten_admin') {
-        alert('Akses Ditolak. Hanya Admin Kabupaten yang dapat menghapus akun Admin Kabupaten.');
-        return;
-    }
-    
-
     if (confirm('Anda yakin ingin menghapus akun pengguna ini?')) {
         UserData = UserData.filter(u => u.id !== id);
         sipdesAuthData.users = UserData;
@@ -5992,17 +5326,12 @@ function renderUserTable() {
                 }
                 expirationDisplay = `(Exp: ${expirationDate.toLocaleDateString('id-ID')})`;
             }
-            
-            // NEW: Highlight Admin Kabupaten Role
-            const roleDisplay = user.role === 'kabupaten_admin' ? 'Admin Kabupaten' : (user.role === 'admin' ? 'Admin Desa' : 'Operator');
-            const roleColor = user.role === 'kabupaten_admin' ? 'style="color: #004d40; font-weight: bold;"' : '';
-
 
             tableHtml += `
                 <tr>
                     <td>${index + 1}</td>
                     <td>${user.username} ${isSelf ? '(Anda)' : ''}</td>
-                    <td ${roleColor}>${roleDisplay}</td>
+                    <td>${user.role}</td>
                     <td style="${statusStyle}">${statusText} ${expirationDisplay}</td>
                     <td>
                         <button class="action-btn edit-btn" onclick="editUser('${user.id}')">Edit</button>
@@ -6081,7 +5410,7 @@ function generatePrintContentHTML(moduleId, moduleTitle, contentHtml, PKAData = 
                 <div class="signature-block" style="width: 30%;">
                     <p style="margin: 0;">Dibuat di ${tempat}, ${dateStr}</p>
                     <p style="margin: 0;">KAUR PERENCANAAN</p>
-					<span class="signature-name" style="width: 100%;">${namaKaurRen || '[Nama Kaur Perencanaan Belum Diisi]'}</span>
+                    <span class="signature-name" style="width: 100%;">${namaKaurRen || '[Nama Kaur Perencanaan Belum Diisi]'}</span>
                 </div>
             </div>
         `;
@@ -6137,7 +5466,7 @@ function cetakLaporanDariModul(targetModuleId) {
 
     switch(targetModuleId) {
         case 'Dashboard':
-            contentHtml = document.querySelector('#dashboard_desa_stats .stats-grid').outerHTML + '<h3>Catatan:</h3>' + document.querySelector('#dashboard_desa_stats ul').outerHTML;
+            contentHtml = document.querySelector('#Dashboard .stats-grid').outerHTML + '<h3>Catatan:</h3>' + document.querySelector('#Dashboard ul').outerHTML;
             break;
         case 'ProfilDesa':
             contentHtml = document.getElementById('profil_desa_output').innerHTML;
@@ -6168,9 +5497,6 @@ function cetakLaporanDariModul(targetModuleId) {
 
             contentHtml = tempMonitoringContent.innerHTML; 
             break;
-        case 'InventarisKekayaan': // <<< DITAMBAHKAN SESUAI PERMINTAAN
-             contentHtml = document.getElementById('kekayaan_list_output').innerHTML;
-             break;
         case 'InventarisHasil':
             contentHtml = document.getElementById('hasil_list_output').innerHTML;
             break;
@@ -6666,7 +5992,7 @@ function generateRABPerBidangHTML(kodeBidang) {
                 <strong style="display: block; margin-bottom: 8px; color: #00796b; font-size: 11pt;">
                     KEGIATAN (Level 3): ${rab.kegiatanKode} ${rab.kegiatanNama}
                 </strong>
-                <p style="margin: 0; font-size: 10pt;">
+                <p style="margin: 0; font-size: 9pt;">
                     Sub Bidang: ${rab.subBidangKode} ${rab.subBidangNama} | 
                     Jenis APBDes: ${rab.jenisApbdes} | 
                     Waktu Pelaksanaan: ${rab.waktuPelaksanaan}
@@ -6764,7 +6090,7 @@ function generateRABPerBidangHTML(kodeBidang) {
 // 4.13 HAPUS SEMUA DATA
 function showClearAllDataModal() {
     if (!checkAuthentication()) return;
-    if (authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') {
+    if (authenticatedUser.role !== 'admin') {
         alert('Akses ditolak. Hanya Admin yang dapat menghapus semua data.');
         return;
     }
@@ -6774,7 +6100,7 @@ function showClearAllDataModal() {
 
 function clearAllData() {
     if (!checkAuthentication()) return;
-    if (authenticatedUser.role !== 'admin' && authenticatedUser.role !== 'kabupaten_admin') {
+    if (authenticatedUser.role !== 'admin') {
         alert('Akses ditolak. Hanya Admin.');
         return;
     }
@@ -6792,30 +6118,9 @@ function clearAllData() {
         return;
     }
 
-    // NEW: Jika Admin Kabupaten menghapus, HANYA hapus data Desa yang sedang aktif
-    if (authenticatedUser.role === 'kabupaten_admin') {
-        if (!currentDesaIdForKabAdmin) {
-            alert('Admin Kabupaten dapat menghapus semua data Desa yang ada di store Kabupaten. Jika Anda ingin menghapus semua data Desa di store, silakan hubungi developer.');
-            // Untuk simulasi, kita akan menghapus semua data di Local Storage kecuali store Kabupaten
-            if (confirm("Anda sedang login sebagai Admin Kabupaten. Yakin ingin menghapus HANYA data Desa yang sedang aktif saat ini?")) {
-                 localStorage.clear();
-                 // PENTING: Jangan hapus store Kabupaten
-                 saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-                 window.location.reload();
-                 return;
-            } else {
-                 document.getElementById('confirmClearAllModal').style.display = 'none';
-                 return;
-            }
-        }
-        
-    }
-
-
     localStorage.clear();
     sessionStorage.clear();
     
-    // Set ulang variabel global dengan default
     rabData = [];
     rkpData = [];
     RealisasiData = [];
@@ -6846,372 +6151,13 @@ function clearAllData() {
         namaKades: 'Nama Kepala Desa', namaSekdes: 'Nama Sekretaris Desa', namaKaurRen: 'Nama Kaur Perencanaan',
         desaAlamat: 'Jalan Utama', desaKodePos: '12345'
     };
-    // Hapus parameter global (diganti dengan default)
-    localStorage.removeItem('RAB_PARAMETERS');
-    localStorage.removeItem('BELANJA_ACCOUNTS_GLOBAL');
-    
+
     document.getElementById('confirmClearAllModal').style.display = 'none';
     showSplash("Menghapus semua data dan memuat ulang...");
     
     setTimeout(() => {
         window.location.reload();
     }, 1500); 
-}
-
-// =======================================================================
-// === 4.14. KABUPATEN MANAGEMENT (NEW) ==================================
-// =======================================================================
-
-function renderKabupatenTable() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    kabupatenDataStore = loadData(KABUPATEN_DATA_KEY, {});
-    const tableContainer = document.getElementById('kabupaten_desa_list_output');
-    if (!tableContainer) return;
-
-    const desaIds = Object.keys(kabupatenDataStore).filter(id => id !== 'desaSettings'); // Filter out the settings placeholder
-
-    if (desaIds.length === 0) {
-        tableContainer.innerHTML = '<p style="text-align: center; color: #777;">Belum ada Desa yang terdaftar. Silakan gunakan form di atas untuk mendaftarkan Desa baru.</p>';
-        return;
-    }
-
-    let tableHtml = '<table class="data-table"><thead><tr>';
-    tableHtml += '<th>#</th><th>Kode Unik Desa</th><th>Nama Desa</th><th>RKP Aktif</th><th>Total Anggaran</th><th>Rata-rata Fisik</th><th>Aksi</th>';
-    tableHtml += '</tr></thead><tbody>';
-
-    desaIds.forEach((desaId, index) => {
-        const desaData = kabupatenDataStore[desaId];
-        const settings = desaData.desaSettings || { namaDesa: 'N/A', tahunAnggaran: currentFilterYear };
-        const dataYear = parseInt(settings.tahunAnggaran || currentFilterYear);
-
-        const filteredRkp = (desaData.rkpData || []).filter(rkp => parseInt(rkp.tahun) === dataYear);
-        const totalRkpAnggaran = filteredRkp.reduce((sum, rkp) => sum + cleanAndParseFloat(rkp.anggaran), 0);
-        
-        const RealisasiDataMap = (desaData.RealisasiData || []).filter(r => parseInt(r.tahun) === dataYear);
-        const itemsWithProgress = RealisasiDataMap.filter(r => r.progres_fisik !== undefined && r.progres_fisik !== null);
-        const overallTotalProgres = itemsWithProgress.reduce((sum, r) => sum + (Number(r.progres_fisik) || 0), 0);
-        const avgProgress = itemsWithProgress.length > 0 ? (overallTotalProgres / itemsWithProgress.length).toFixed(2) : '0';
-        
-        const isContextActive = currentDesaIdForKabAdmin === desaId;
-
-
-        tableHtml += `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${desaId}</td>
-                <td><strong style="color:${isContextActive ? '#d9534f' : '#004d40'};">${settings.namaDesa}</strong> (${dataYear}) ${isContextActive ? '<span class="status-badge status-pelaksanaan">AKTIF</span>' : ''}</td>
-                <td>${filteredRkp.length}</td>
-                <td style="text-align: right;">${formatRupiah(totalRkpAnggaran)}</td>
-                <td style="text-align: center;">${avgProgress}%</td>
-                <td>
-                    <button class="action-btn edit-btn" onclick="editRegisteredDesa('${desaId}')">📝 Edit/Reset Pass</button>
-                    <button class="action-btn" style="background-color: #004d40;" onclick="switchVillageContext('${desaId}')" ${isContextActive ? 'disabled' : ''}>🚪 Masuk</button>
-                    <button class="action-btn delete-btn" onclick="deleteRegisteredDesa('${desaId}')">🗑️ Hapus</button>
-                </td>
-            </tr>
-        `;
-    });
-    tableHtml += '</tbody></table>';
-    tableContainer.innerHTML = tableHtml;
-}
-
-function registerNewDesa() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    const desaId = document.getElementById('desa_id_input').value.trim();
-    const namaDesa = document.getElementById('desa_nama_input').value.trim();
-    const username = document.getElementById('desa_admin_username_input').value.trim();
-    const password = document.getElementById('desa_admin_password_input').value.trim();
-    const isEditing = document.getElementById('desa_editing_id').value.trim() !== '';
-
-    if (!desaId || !namaDesa || !username) {
-        alert("Kode Unik Desa, Nama Desa, dan Username wajib diisi.");
-        return;
-    }
-    
-    if (!isEditing && kabupatenDataStore[desaId]) {
-         alert("Kode Unik Desa ini sudah terdaftar. Gunakan tombol Edit/Reset Pass.");
-         return;
-    }
-
-    if (isEditing) {
-        // Mode Edit: Hanya update settings dan user
-        if (kabupatenDataStore[desaId]) {
-            kabupatenDataStore[desaId].desaSettings.namaDesa = namaDesa;
-            
-            const adminUser = kabupatenDataStore[desaId].UserData.find(u => u.username === username && u.role === 'admin'); // Cari Admin Desa
-            if (adminUser) {
-                // LOGIC RESET PASSWORD KABUPATEN ADMIN
-                if (password) {
-                     // Reset password hanya jika Admin Kabupaten menginput password baru
-                     hashPassword(password).then(hash => {
-                        adminUser.passwordHash = hash;
-                        saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-                        clearDesaForm();
-                        renderKabupatenTable();
-                        alert(`✅ Password Admin Desa ${namaDesa} berhasil direset! Username: ${username}.`);
-                     });
-                     return;
-                } 
-                // Jika tidak ada password baru, hanya simpan perubahan nama desa
-                saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-                clearDesaForm();
-                renderKabupatenTable();
-                alert(`✅ Data Desa ${namaDesa} berhasil diperbarui.`);
-            } else {
-                 alert("Username Admin Desa tidak ditemukan di data Desa. Harap cek kembali.");
-                 return;
-            }
-        }
-    } else {
-        // Mode Daftar Baru
-        showSplash("Mendaftarkan Desa baru...");
-        // 1. Buat data default untuk desa baru (menggunakan struktur data desa saat ini)
-        const newDesaData = {
-            rabData: [], rkpData: [], RealisasiData: [], KekayaanData: [], HasilData: [],
-            customPKAList: [], customObyekAccounts: [], profilDesaData: profilDesaData, 
-            rpjmDesData: { ...rpjmDesData, detailRencana: [] }, UserData: [] 
-        };
-        
-        // 2. Buat user admin desa
-        const defaultPassword = password || `pass${Math.floor(Math.random() * 100000)}`;
-        hashPassword(defaultPassword).then(hash => {
-            newDesaData.UserData = [
-                { id: 'admin', username: username, passwordHash: hash, role: 'admin', expirationDate: null },
-                { id: 'operator', username: 'operator', passwordHash: hashPasswordSimple('operator'), role: 'operator', expirationDate: null } 
-            ];
-            
-            // Mengambil settings Kabupaten untuk dijadikan base settings Desa
-            const kabSettingsBase = KABUPATEN_SETTINGS;
-
-            newDesaData.desaSettings = {
-                ...desaSettings,
-                namaDesa: namaDesa,
-                namaKecamatan: kabSettingsBase.namaKecamatan,
-                namaKabupaten: kabSettingsBase.namaKabupaten,
-                namaProvinsi: kabSettingsBase.namaProvinsi,
-                tahunAnggaran: String(currentFilterYear),
-            };
-            
-            kabupatenDataStore[desaId] = newDesaData;
-            saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-            hideSplash();
-            clearDesaForm();
-            renderKabupatenTable();
-            
-            alert(`✅ Desa ${namaDesa} berhasil didaftarkan. Username Admin: ${username}, Password Awal: ${defaultPassword}`);
-        });
-    }
-}
-
-function editRegisteredDesa(desaId) {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    const desaData = kabupatenDataStore[desaId];
-    if (desaData) {
-        document.getElementById('desa_editing_id').value = desaId;
-        document.getElementById('desa_id_input').value = desaId;
-        document.getElementById('desa_id_input').disabled = true; // Cannot change ID
-        document.getElementById('desa_nama_input').value = desaData.desaSettings.namaDesa;
-        
-        const adminUser = desaData.UserData.find(u => u.role === 'admin');
-        if (adminUser) {
-            document.getElementById('desa_admin_username_input').value = adminUser.username;
-            document.getElementById('desa_admin_username_input').disabled = true; // Username Admin Desa tidak bisa diubah
-            document.getElementById('desa_admin_password_input').placeholder = "Kosongkan jika tidak ingin diubah (Reset Password)";
-        } else {
-             document.getElementById('desa_admin_username_input').value = '[User Admin Tidak Ditemukan]';
-             document.getElementById('desa_admin_username_input').disabled = false;
-             document.getElementById('desa_admin_password_input').placeholder = "Isi password baru untuk membuat Admin Desa";
-        }
-    }
-}
-
-function deleteRegisteredDesa(desaId) {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-    if (confirm(`PERINGATAN: Anda yakin ingin menghapus data Desa ${kabupatenDataStore[desaId]?.desaSettings.namaDesa} (ID: ${desaId}) secara PERMANEN dari penyimpanan Kabupaten?`)) {
-        if (currentDesaIdForKabAdmin === desaId) {
-             alert("Tindakan Dibatalkan: Tidak bisa menghapus Desa yang sedang aktif. Silakan Logout terlebih dahulu.");
-             return;
-        }
-        delete kabupatenDataStore[desaId];
-        saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-        renderKabupatenTable();
-        alert('Data desa berhasil dihapus dari simulasi Kabupaten Store.');
-    }
-}
-
-function clearDesaForm() {
-    document.getElementById('desa_editing_id').value = '';
-    document.getElementById('desa_id_input').value = '';
-    document.getElementById('desa_id_input').disabled = false;
-    document.getElementById('desa_nama_input').value = '';
-    document.getElementById('desa_admin_username_input').value = '';
-    document.getElementById('desa_admin_username_input').disabled = false;
-    document.getElementById('desa_admin_password_input').value = '';
-    document.getElementById('desa_admin_password_input').placeholder = "Isi untuk membuat/mengubah password";
-}
-
-/**
- * PENTING: Fungsi ini mensimulasikan login ke desa lain dengan menimpa data local storage saat ini
- * Dengan data desa target. HATI-HATI.
- */
-function switchVillageContext(desaId) {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-    
-    const desaData = kabupatenDataStore[desaId];
-    if (!desaData) {
-        alert("Data desa tidak ditemukan di store Kabupaten.");
-        return;
-    }
-    
-    if (!confirm(`PERINGATAN: Anda akan MENIMPA data aplikasi saat ini dengan data Desa ${desaData.desaSettings.namaDesa}. Anda akan diarahkan ke Dashboard Desa tersebut. Lanjutkan?`)) {
-        return;
-    }
-
-    // 1. Ambil data yang sedang aktif saat ini (jika bukan Kabupaten Admin Murni)
-    if (localStorage.getItem('currentDesaIdForKabAdmin')) {
-        // Logika untuk menyimpan data Desa yang sedang aktif kembali ke store Kabupaten sebelum diganti
-        const currentDesaId = localStorage.getItem('currentDesaIdForKabAdmin');
-        kabupatenDataStore[currentDesaId] = {
-            rabData: loadData('rabData', []),
-            rkpData: loadData('RkpData', []),
-            RealisasiData: loadData('RealisasiData', []),
-            KekayaanData: loadData('KekayaanData', []),
-            HasilData: loadData('HasilData', []),
-            desaSettings: loadData('desaSettings', {}),
-            desaLogoBase64: localStorage.getItem('desaLogoBase64') || '',
-            customPKAList: loadData('customPKAList', []),
-            customObyekAccounts: loadData('customObyekAccounts', []),
-            profilDesaData: loadData('profilDesaData', {}),
-            rpjmDesData: loadData('rpjmDesData', {}),
-            UserData: loadData('UserData', [])
-        };
-        saveData(KABUPATEN_DATA_KEY, kabupatenDataStore);
-    }
-
-
-    showSplash(`Memuat data Desa ${desaData.desaSettings.namaDesa}...`);
-
-    // 2. Clear current state (kecuali kabupaten store)
-    localStorage.removeItem('currentRABIndex');
-    localStorage.removeItem('lastActiveModule');
-    
-    // 3. Muat data desa target ke local storage saat ini
-    localStorage.setItem('rabData', JSON.stringify(desaData.rabData || []));
-    localStorage.setItem('RkpData', JSON.stringify(desaData.rkpData || []));
-    localStorage.setItem('RealisasiData', JSON.stringify(desaData.RealisasiData || []));
-    localStorage.setItem('KekayaanData', JSON.stringify(desaData.KekayaanData || []));
-    localStorage.setItem('HasilData', JSON.stringify(desaData.HasilData || []));
-    localStorage.setItem('desaSettings', JSON.stringify(desaData.desaSettings || {}));
-    localStorage.setItem('desaLogoBase64', desaData.desaLogoBase64 || '');
-    localStorage.setItem('customPKAList', JSON.stringify(desaData.customPKAList || []));
-    localStorage.setItem('customObyekAccounts', JSON.stringify(desaData.customObyekAccounts || []));
-    localStorage.setItem('profilDesaData', JSON.stringify(desaData.profilDesaData || {}));
-    localStorage.setItem('rpjmDesData', JSON.stringify(desaData.rpjmDesData || {}));
-    localStorage.setItem('UserData', JSON.stringify(desaData.UserData || []));
-    localStorage.setItem('sipdesAuthData', JSON.stringify({ users: desaData.UserData, currentUser: desaData.UserData.find(u => u.role === 'admin').username }));
-    
-    // 4. Update global variables dan reload (logout/login ulang sebagai Desa Admin)
-    sessionStorage.removeItem('auth_user'); 
-    localStorage.setItem('currentDesaIdForKabAdmin', desaId); // Tandai desa yang sedang aktif
-
-    // Logout Kabupaten Admin (agar sistem force login sebagai Admin Desa)
-    // Kemudian reload agar data dari local storage baru diinisialisasi
-    setTimeout(() => {
-        alert(`Berhasil masuk ke Dashboard Desa ${desaData.desaSettings.namaDesa}. Logout untuk kembali ke mode Kabupaten Admin.`);
-        window.location.reload(); 
-    }, 100);
-}
-
-
-// =======================================================================
-// === 4.15 PARAMETER MANAGEMENT (NEW) - FUNGSI YANG HILANG DITAMBAHKAN
-// =======================================================================
-
-function renderParameterManagement() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    // Load and display current Kabupaten Settings (Wilayah Simulasi)
-    const settings = loadData('KABUPATEN_SETTINGS', KABUPATEN_SETTINGS);
-    updateElementContent('param_kecamatan', settings.namaKecamatan);
-    updateElementContent('param_kabupaten', settings.namaKabupaten);
-    updateElementContent('param_provinsi', settings.namaProvinsi);
-}
-
-function saveKabupatenSettings() {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') return;
-
-    KABUPATEN_SETTINGS.namaKecamatan = document.getElementById('param_kecamatan').value.trim();
-    KABUPATEN_SETTINGS.namaKabupaten = document.getElementById('param_kabupaten').value.trim();
-    KABUPATEN_SETTINGS.namaProvinsi = document.getElementById('param_provinsi').value.trim();
-    
-    saveData('KABUPATEN_SETTINGS', KABUPATEN_SETTINGS);
-    alert('✅ Parameter Wilayah Kabupaten berhasil disimpan. Ini akan digunakan sebagai default saat mendaftarkan Desa baru.');
-}
-
-function uploadParameter(type) {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') {
-        alert('Akses Ditolak. Hanya Admin Kabupaten yang dapat mengubah data master.');
-        return;
-    }
-    const inputId = type === 'RAB' ? 'uploadRABParameters' : 'uploadBelanjaAccounts';
-    const fileInput = document.getElementById(inputId);
-    const file = fileInput.files[0];
-
-    if (!file) {
-        alert('Silakan pilih file JSON terlebih dahulu.');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const uploadedData = JSON.parse(e.target.result);
-            
-            // Basic validation for RAB Parameters
-            if (type === 'RAB' && Array.isArray(uploadedData) && uploadedData[0].kode && uploadedData[0].subBidang) {
-                RAB_PARAMETERS = uploadedData;
-                saveData('RAB_PARAMETERS', RAB_PARAMETERS);
-                alert('✅ Parameter Bidang/Kegiatan (RAB_PARAMETERS) berhasil diunggah dan disimpan.');
-            } 
-            // Basic validation for Belanja Accounts
-            else if (type === 'BELANJA' && Array.isArray(uploadedData) && uploadedData[0].kode && uploadedData[0].jenis) {
-                BELANJA_ACCOUNTS_GLOBAL = uploadedData;
-                saveData('BELANJA_ACCOUNTS_GLOBAL', BELANJA_ACCOUNTS_GLOBAL);
-                alert('✅ Parameter Akun Belanja (BELANJA_ACCOUNTS) berhasil diunggah dan disimpan.');
-            } else {
-                alert('Gagal: Struktur file JSON tidak sesuai format yang diharapkan.');
-                return;
-            }
-            
-            // Re-initialize global references and UI dropdowns if necessary
-            window.location.reload(); 
-            
-        } catch (error) {
-            alert('Gagal memproses file JSON: ' + error.message);
-        }
-    };
-    reader.readAsText(file);
-}
-
-function downloadParameter(type) {
-    if (!checkAuthentication() || authenticatedUser.role !== 'kabupaten_admin') {
-        alert('Akses Ditolak. Hanya Admin Kabupaten.');
-        return;
-    }
-
-    const dataToExport = type === 'RAB' ? RAB_PARAMETERS : BELANJA_ACCOUNTS_GLOBAL;
-    const fileName = type === 'RAB' ? 'RAB_PARAMETERS_MASTER.json' : 'BELANJA_ACCOUNTS_MASTER.json';
-    
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", fileName);
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
 }
 
 // =======================================================================
@@ -7489,7 +6435,7 @@ function saveRPJMDesDetail() {
         subBidangKode, subBidangNama,
         kegiatanKode, kegiatanNama,
         uraianKegiatan,
-        lokasi, volume, manfaat, waktu, jumlah: formatRupiah(cleanAndParseFloat(jumlah)), sumber, pola
+        lokasi, volume, manfaat, waktu, jumlah, sumber, pola
     };
 
     if (index !== "" && index > -1) {
@@ -7640,44 +6586,9 @@ function renderRPJMDesDetailTable() {
 // =======================================================================
 document.addEventListener('DOMContentLoaded', () => {
     
-    // NEW: EVENT LISTENER UNTUK TOMBOL LOGIN (Memperbaiki "loginUser is not defined")
-    const loginButton = document.getElementById('login_button');
-    if (loginButton) {
-        loginButton.addEventListener('click', loginUser);
-        
-        // Aktifkan login via Enter
-        document.getElementById('password_input')?.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                loginUser();
-            }
-        });
-    }
-
     // START: PERBAIKAN - Alur inisialisasi untuk mengatasi masalah layar putih
     const initApp = async () => {
-        
-        // PENTING: Sebelum inisialisasi Auth, muat dulu parameter global
-        RAB_PARAMETERS = loadData('RAB_PARAMETERS', RAB_PARAMETERS_DEFAULT);
-        BELANJA_ACCOUNTS_GLOBAL = loadData('BELANJA_ACCOUNTS_GLOBAL', BELANJA_ACCOUNTS_DEFAULT);
-        KABUPATEN_SETTINGS = loadData('KABUPATEN_SETTINGS', KABUPATEN_SETTINGS); 
-        
-        // PENTING: Jika ada currentDesaIdForKabAdmin, kita HARUS memuat UserData Desa, BUKAN UserData Kabupaten
-        // Jika tidak, otentikasi akan gagal karena username/password Admin Kabupaten tidak ada di data Desa
-        if (localStorage.getItem('currentDesaIdForKabAdmin')) {
-             const tempDesaData = loadData('UserData', []);
-             if (tempDesaData.length > 0) {
-                  UserData = tempDesaData; // Muat UserData Desa
-                  // Muat DesaSettings (untuk tahun anggaran)
-                  desaSettings = loadData('desaSettings', desaSettings);
-             } else {
-                  // Fallback jika data desa hilang
-                  localStorage.removeItem('currentDesaIdForKabAdmin');
-             }
-        } else {
-             // Jika bukan konteks Desa, inisialisasi normal
-             await initializeAuthSystem();
-        }
-
+        await initializeAuthSystem();
         desaLogoBase64 = desaSettings.logoDataUrl || localStorage.getItem('desaLogoBase64') || '';
         
         showSplash("Menginisialisasi sistem...");
@@ -7689,17 +6600,6 @@ document.addEventListener('DOMContentLoaded', () => {
             desaSettings.tahunAnggaran = String(currentFilterYear);
             saveData('desaSettings', desaSettings);
         }
-        
-        // PENTING: Jika login terakhir adalah Admin Kabupaten MURNI (bukan dalam konteks desa)
-        if (!currentDesaIdForKabAdmin && sipdesAuthData?.currentUser === 'admin_kab') {
-             // Pastikan data yang dimuat adalah data Admin Kabupaten
-             const kabUser = UserData.find(u => u.id === KABUPATEN_ADMIN_ID);
-             if (kabUser) {
-                 UserData = [kabUser];
-                 sipdesAuthData.users = UserData;
-             }
-        }
-
 
         setTimeout(() => {
             if (checkAuthentication(false)) { // Cek otentikasi tanpa menampilkan alert
@@ -7707,21 +6607,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateFilterYearDisplay();
                 restoreLastActiveModule();
                 const initialModuleId = document.querySelector('.module-content.active').id;
-                
-                // NEW: Arahkan Admin Kabupaten ke modul manajemen
-                if(authenticatedUser.role === 'kabupaten_admin' && !currentDesaIdForKabAdmin && initialModuleId !== 'KabupatenManagement') {
-                    // Cek jika modul aktif saat ini adalah Dashboard, biarkan dia di dashboard untuk lihat ringkasan
-                    if(initialModuleId === 'Dashboard') {
-                         renderModuleData('Dashboard');
-                    } else {
-                        const kabMenu = Array.from(document.querySelectorAll('.sidebar a')).find(a => a.getAttribute('onclick')?.includes('KabupatenManagement'));
-                        if(kabMenu) showModule(kabMenu, 'KabupatenManagement');
-                    }
-                } else {
-                    renderModuleData(initialModuleId);
-                    if (initialModuleId === 'RPJMDes') renderRPJMDesDetailTable();
-                }
-                
+                renderModuleData(initialModuleId);
+                if (initialModuleId === 'RPJMDes') renderRPJMDesDetailTable();
                 document.getElementById('app_container').classList.remove('app-hidden');
                 hideSplash();
             } else {
