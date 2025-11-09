@@ -91,7 +91,7 @@
     .form-container input[type="password"] {
         width: calc(100% - 22px);
         padding: 10px;
-        margin: 8px 0;
+        margin: 8:px 0;
         display: inline-block;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -116,7 +116,7 @@
     .form-container textarea {
         width: calc(100% - 22px);
         padding: 10px;
-        margin: 8px 0;
+        margin: 8:px 0;
         display: inline-block;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -1623,9 +1623,14 @@
             <button onclick="tampilkanFormCetakRABPerBidang()">🖨️ Cetak RAB Per Bidang</button>
             <button onclick="cetakRABKeseluruhan()">🖨️ Cetak RAB Keseluruhan</button>
             <button onclick="cetakLaporanDariModul('MonitoringEvaluasi')">🖨️ Cetak Laporan Monitoring</button>
+            
+            <!-- START: FIX - Tambahkan tombol Cetak Inventaris Kekayaan -->
+            <button onclick="cetakLaporanDariModul('InventarisKekayaan')">🖨️ Cetak Inventaris Kekayaan</button>
+            <!-- END: FIX -->
+            
             <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Hasil</button>
-            <!-- START: PENAMBAHAN TOMBOL CETAK INVENTARIS PEMBANGUNAN SESUAI PERMINTAAN -->
-            <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Pembangunan</button>
+            <!-- START: PENAMBAHAN TOMBOL CETAK INVENTARIS PEMBANGUNAN SESUAI PERMINTAAN (Diperbaiki agar hanya 1 tombol untuk Hasil/Pembangunan) -->
+            <!-- <button onclick="cetakLaporanDariModul('InventarisHasil')">🖨️ Cetak Inventaris Pembangunan</button> -->
             <!-- END: PENAMBAHAN TOMBOL CETAK INVENTARIS PEMBANGUNAN SESUAI PERMINTAAN -->
         </div>
     </div>
@@ -4365,7 +4370,7 @@ function tampilkanFormRAB(index = -1) {
             }
         }, 100); 
 
-        document.getElementById('rabWaktuPelaksanaan').value = rab.waktuPelaksanaan;
+      document.getElementById('rabWaktuPelaksanaan').value = rab.waktuPelaksanaan;
         document.getElementById('rabSubKegiatanNama').value = rab.subKegiatanNama || '';
         
         // Disable impor jika sedang mode edit
@@ -5497,6 +5502,9 @@ function cetakLaporanDariModul(targetModuleId) {
 
             contentHtml = tempMonitoringContent.innerHTML; 
             break;
+        case 'InventarisKekayaan':
+            contentHtml = document.getElementById('kekayaan_list_output').innerHTML;
+            break;
         case 'InventarisHasil':
             contentHtml = document.getElementById('hasil_list_output').innerHTML;
             break;
@@ -5684,7 +5692,11 @@ function generateRABDetailHTML(rab) {
                     currentLevel5Print = kodeAkunPenuh;
                 }
                 
-                html += `
+                const pkaDisplay = isPrintingMode ? 
+                    `${item.namaPKA || 'N/A'} <br> <span style="font-size:8pt; font-style:italic;">(${item.pka})</span>` :
+                    `${item.namaPKA || 'N/A'} (${item.pka})`;
+
+                row.innerHTML = `
                     <tr>
                         <td style="text-align:center;">${index + 1}</td>
                         <td>
@@ -5694,8 +5706,12 @@ function generateRABDetailHTML(rab) {
                         <td>${item.volume} ${item.satuan}</td>
                         <td style="text-align:right;">${item.hargaSatuan}</td>
                         <td style="text-align:right;">${formatRupiah(jumlah, true)}</td>
-                        <td>${item.namaPKA || 'N/A'} (${item.pka})</td>
+                        <td>${pkaDisplay}</td>
                         <td>${item.ket}</td>
+                        ${isPrintingMode ? '' : `<td class="rab-actions">
+                            <button onclick="editDetailBelanja(${index})">✏️</button>
+                            <button onclick="hapusDetailBelanja(${index})">🗑️</button>
+                        </td>`}
                     </tr>
                 `;
             });
@@ -5856,6 +5872,229 @@ function generateRABKeseluruhanHTML() {
         <div style="margin-top: 30px; border: 2px solid #00796b; padding: 10px; background-color: #e0f2f1; page-break-before: always; page-break-inside: avoid;">
             <strong style="display: flex; justify-content: space-between; font-size: 14pt; color: #00796b;">
                 <span>GRAND TOTAL ANGGARAN SELURUH KEGIATAN</span>
+                <span>${formatRupiah(grandTotal, true)}</span>
+            </strong>
+        </div>
+    `;
+
+    return html;
+}
+
+function tampilkanFormCetakRABPerBidang() { 
+    if (!checkAuthentication()) return;
+    
+    const filteredRAB = rabData.filter(rab => parseInt(rab.rabTahun) === currentFilterYear);
+    const select = document.getElementById('selectBidangCetakRAB');
+
+    select.innerHTML = '<option value="">-- Pilih Bidang --</option>';
+    
+    const uniqueBidang = [...new Set(filteredRAB.map(item => 
+        JSON.stringify({ kode: item.bidangKode, nama: item.bidangNama })
+    ))].map(item => JSON.parse(item));
+    
+    if(uniqueBidang.length === 0) {
+        alert('Tidak ada data RAB untuk tahun ini.');
+        return;
+    }
+    
+    uniqueBidang.sort((a, b) => a.kode.localeCompare(b.kode));
+    
+    uniqueBidang.forEach(bidang => {
+        const option = document.createElement('option');
+        option.value = bidang.kode;
+        option.textContent = `${bidang.kode} ${bidang.nama}`;
+        select.appendChild(option);
+    });
+    
+    document.getElementById('formCetakRABPerBidangModal').style.display = 'flex';
+}
+function prosesCetakRABPerBidang() { 
+    if (!checkAuthentication()) return;
+    
+    const kodeBidang = document.getElementById('selectBidangCetakRAB').value;
+    if (!kodeBidang) {
+        alert('Silakan pilih bidang terlebih dahulu.');
+        return;
+    }
+
+    const activeModule = document.querySelector('.module-content.active');
+    const lastActiveModuleId = activeModule ? activeModule.id : 'Dashboard';
+    if (activeModule) activeModule.classList.remove('active');
+    document.getElementById('RABKegiatanModule').classList.add('active'); 
+    
+    isPrintingMode = true; 
+    
+    renderRABKegiatan(); 
+    
+    const moduleTitle = `Rencana Anggaran Biaya (RAB) Per Bidang`;
+    const contentHtml = generateRABPerBidangHTML(kodeBidang);
+
+    if (!contentHtml || contentHtml.includes('Tidak ada data RAB')) {
+         alert('Tidak ada data kegiatan untuk bidang ini.');
+         document.getElementById('RABKegiatanModule').classList.remove('active');
+         if (activeModule) activeModule.classList.add('active');
+         
+         isPrintingMode = false;
+         
+         renderModuleData(lastActiveModuleId);
+         return;
+    }
+
+    const finalPrintHTML = generatePrintContentHTML(
+        'RABPerBidang', 
+        moduleTitle, 
+        contentHtml
+    );
+
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(finalPrintHTML);
+    printWindow.document.close();
+    printWindow.focus();
+    
+    setTimeout(() => { 
+        printWindow.print(); 
+    }, 500); 
+    
+    document.getElementById('formCetakRABPerBidangModal').style.display = 'none';
+
+    document.getElementById('RABKegiatanModule').classList.remove('active');
+    if (activeModule) activeModule.classList.add('active');
+    
+    isPrintingMode = false;
+    
+    renderModuleData(lastActiveModuleId);
+}
+
+
+function generateRABPerBidangHTML(kodeBidang) {
+    const filteredRAB = rabData.filter(rab => 
+        parseInt(rab.rabTahun) === currentFilterYear && 
+        rab.bidangKode === kodeBidang
+    );
+    
+    if (filteredRAB.length === 0) {
+        return `<p style="color:red; text-align:center; font-weight:bold;">Tidak ada data RAB untuk Bidang ${kodeBidang} (Tahun ${currentFilterYear}).</p>`;
+    }
+
+    const bidangGroup = {
+        nama: filteredRAB[0].bidangNama,
+        kode: filteredRAB[0].bidangKode,
+        items: filteredRAB
+    };
+
+    let html = '';
+    let grandTotal = 0;
+
+    html += `
+        <h4 style="margin-top: 5px; margin-bottom: 5px; color: #004d40; font-size: 13pt;">
+            BIDANG: ${bidangGroup.kode} ${bidangGroup.nama}
+        </h4>
+    `;
+
+    bidangGroup.items.sort((a, b) => {
+        const codeA = a.subBidangKode + a.kegiatanKode;
+        const codeB = b.subBidangKode + b.kegiatanKode;
+        return codeA.localeCompare(codeB);
+    });
+
+    bidangGroup.items.forEach((rab, rabIndex) => {
+        const totalAnggaranKegiatan = calculateRABTotal(rab);
+        grandTotal += totalAnggaranKegiatan;
+        
+        const subKegiatanDisplay = rab.subKegiatanNama || 'Belum Diisi';
+
+        html += `
+            <div style="page-break-inside: avoid; margin-bottom: 15px; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+                <strong style="display: block; margin-bottom: 8px; color: #00796b; font-size: 11pt;">
+                    KEGIATAN (Level 3): ${rab.kegiatanKode} ${rab.kegiatanNama}
+                </strong>
+                <p style="margin: 0; font-size: 9pt;">
+                    Sub Bidang: ${rab.subBidangKode} ${rab.subBidangNama} | 
+                    Jenis APBDes: ${rab.jenisApbdes} | 
+                    Waktu Pelaksanaan: ${rab.waktuPelaksanaan}
+                </p>
+                 <p style="margin: 0; font-size: 9pt;">
+                    SUB KEGIATAN (Level 4): ${subKegiatanDisplay}
+                </p>
+        `;
+
+        html += `
+            <table class="data-table" style="margin-top: 10px; font-size: 9pt;">
+                <thead>
+                    <tr>
+                        <th style="width: 3%;">NO</th>
+                        <th style="width: 38%;">KODE REKENING (Level 5) / URAIAN BELANJA (Level 6)</th>
+                        <th style="width: 10%;">SUMBER DANA</th>
+                        <th style="width: 10%;">VOL & SATUAN</th>
+                        <th style="width: 12%;">HARGA SATUAN (Rp)</th>
+                        <th style="width: 12%;">JUMLAH (Rp)</th>
+                        <th style="width: 10%;">PKA</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        if (rab.detailBelanja && rab.detailBelanja.length > 0) {
+            rab.detailBelanja.sort((a, b) => a.kodeAkun.localeCompare(b.kodeAkun));
+            
+            let currentLevel5Print = '';
+            
+            rab.detailBelanja.forEach((item, detailIndex) => {
+                const jumlah = (cleanAndParseFloat(item.volume) || 0) * (cleanAndParseFloat(item.hargaSatuan) || 0);
+                
+                const kodeAkunPenuh = item.kodeAkun;
+                const uraianRincian = item.uraian;
+                
+                if (currentLevel5Print !== kodeAkunPenuh) {
+                     const obyekTotal = rab.detailBelanja
+                        .filter(d => d.kodeAkun === kodeAkunPenuh)
+                        .reduce((sum, d) => sum + (cleanAndParseFloat(d.volume) * cleanAndParseFloat(d.hargaSatuan)), 0);
+                        
+                     html += `
+                         <tr style="background-color: #f5f5f5; font-weight: bold;">
+                             <td colspan="7" style="padding: 4px 6px; font-size: 9pt;">OBJEK (LEVEL 5): ${kodeAkunPenuh} ${item.obyekNama} 
+                                 <span style="float: right;">TOTAL: ${formatRupiah(obyekTotal)}</span>
+                             </td>
+                         </tr>
+                     `;
+                     currentLevel5Print = kodeAkunPenuh;
+                 }
+
+
+                html += `
+                    <tr>
+                        <td style="text-align:center;">${detailIndex + 1}</td>
+                        <td>
+                            <strong style="color: #00796b; display: block;">${uraianRincian}</strong> 
+                        </td>
+                        <td>${item.sumberDana}</td>
+                        <td style="text-align:right;">${item.volume} ${item.satuan}</td>
+                        <td style="text-align:right;">${item.hargaSatuan}</td>
+                        <td style="text-align:right;">${formatRupiah(jumlah, true)}</td>
+                        <td>${item.namaPKA} <br> <span style="font-size:8pt; font-style:italic;">(${item.pka})</span></td>
+                    </tr>
+                `;
+            });
+        } else {
+             html += `<tr><td colspan="7" style="text-align:center; color:gray;">(Tidak ada Detil Belanja)</td></tr>`;
+        }
+
+        html += `
+                <tr style="background-color: #f0fdf9; font-weight: bold;">
+                    <td colspan="5" style="text-align: right; padding: 5px;">TOTAL KEGIATAN INI</td>
+                    <td style="text-align: right; padding: 5px;">${formatRupiah(totalAnggaranKegiatan, true)}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        `;
+    });
+    
+    html += `
+        <div style="margin-top: 30px; border: 2px solid #00796b; padding: 10px; background-color: #e0f2f1; page-break-inside: avoid;">
+            <strong style="display: flex; justify-content: space-between; font-size: 14pt; color: #00796b;">
+                <span>GRAND TOTAL ANGGARAN BIDANG INI</span>
                 <span>${formatRupiah(grandTotal, true)}</span>
             </strong>
         </div>
